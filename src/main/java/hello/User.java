@@ -2,12 +2,14 @@ package hello;
 
 public class User {
 	
-	public int id;
 	public String name;
 	
-	public User(int id,String name){
-		this.id=id;
+	public User(String name){
 		this.name=name;
+	}
+	
+	public String getName(){
+		return name;
 	}
 	
 

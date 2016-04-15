@@ -17,7 +17,7 @@ function connect() {
         stompClient.subscribe('/topic/messages', function(message){
             showMessage(JSON.parse(message.body).content);
         });
-        sendUser();
+        sendWelcome();
     });
 }
 
@@ -29,14 +29,16 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function sendUser() {
+function sendWelcome() {
     var name = document.getElementById('name').value;
+    name = "Welcome " + name;
     stompClient.send("/app/chat", {}, JSON.stringify({ 'content': name }));
 }
 
 function sendMessage() {
     var message = document.getElementById('message').value;
-    stompClient.send("/app/chat", {}, JSON.stringify({ 'content': message }));	
+    var name = document.getElementById('name').value;
+    stompClient.send("/app/chat", {}, JSON.stringify({ 'content': message, 'user': { 'name': name } }));	
 }
 
 function showMessage(message) {

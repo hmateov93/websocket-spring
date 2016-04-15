@@ -7,10 +7,11 @@ public class Message {
     
     public Message(MessageContent message){
     	this.content=message.getContent();
+    	this.user=message.getUser();
     }
 
-    public String getContent() {
-        return content;
+    public String getMessage() {
+        return user.getName() + ": " + content;
     }	
 	
 }
