@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Chat</title>
+    <script src="sockjs-0.3.4.js"></script>
+    <script src="stomp.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/room.js"></script>
+</head>
+<body onload="init()">
+<div>
+    <div id="conversationDiv">
+        <p id="response"></p>
+    </div>
+    <div id="messageUIDiv">
+    	<input id="message" type="text">
+    	<button id="sendMessage" onclick="sendMessage(0);">Send</button><br>    
+    </div>    
+    <div>
+        <button id="disconnect" onclick="disconnect();">Disconnect</button>
+    </div>
+
+</div>
+</body>
+</html>

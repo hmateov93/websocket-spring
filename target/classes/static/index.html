@@ -1,27 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello WebSocket</title>
+    <title>WebSocket Chat</title>
     <script src="sockjs-0.3.4.js"></script>
     <script src="stomp.js"></script>
-    <script type="text/javascript" src="script.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
 </head>
-<body onload="disconnect()">
+<body>
 <div>
-    <div>
-    	<input id="name" type="text"><br>
-        <button id="connect" onclick="connect();">Connect</button>
-        <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
-    </div>
-    <div id="messageUIDiv">
-    	<input id="message" type="text">
-    	<button id="sendMessage" onclick="sendMessage();">Send</button><br>    
-    </div>    
-    <div id="conversationDiv">
-        <p id="response"></p>
-    </div>
-
-
+	Username<br>
+   	<input id="name" type="text"><br>
+   	Password<br>
+   	<input id="password" type="password"><br>
+    <button id="login" onclick="logIn();">Log In</button>
 </div>
 </body>
 </html>

@@ -1,15 +1,16 @@
-package hello;
+package chat;
 
 public class MessageContent {
 
     private String content;
-    private User user;
+    private String user;
+    public int type;
 
     public String getContent() {
         return content;
     }	
-    
-    public User getUser(){
+	
+    public String getUser(){
     	return user;
     }
 	
