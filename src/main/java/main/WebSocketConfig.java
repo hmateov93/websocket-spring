@@ -1,4 +1,4 @@
-package chat;
+package main;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -20,6 +20,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/chat").withSockJS();
 		registry.addEndpoint("/lobby").withSockJS();
+		registry.addEndpoint("/login").withSockJS();
 	}
 
 }

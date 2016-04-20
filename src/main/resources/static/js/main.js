@@ -1,4 +1,4 @@
-var user = { 'type': 'USER', 'name': 'Guest', 'password' : '1234'}; //Mocked user
+var user = { 'type': 'UNASSIGNED', 'name': 'Guest', 'password' : '1234'}; //Mocked user
 
 function getQueryVariable(variable) { //Method to get variables from URL
     var query = window.location.search.substring(1);

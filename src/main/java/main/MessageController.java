@@ -1,4 +1,4 @@
-package chat;
+package main;
 import java.util.ArrayList;
 
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -19,8 +19,6 @@ public class MessageController {
         if(message.type==0)finalmessage = new Message(message.getUser() + " : " + message.getContent()); //Plain communication between users
         else if(message.type==1){ //New user joining the channel
         	finalmessage = new Message(message.getUser() + " joined the channel"); 
-        	User user=new User("USER",message.getUser(),"1234");
-        	users.add(user);
         }
         else if(message.type==2)finalmessage = new Message(message.getUser() + " left the channel"); //User leaving the channel
         return finalmessage;

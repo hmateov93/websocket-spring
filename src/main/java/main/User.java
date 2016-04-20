@@ -1,4 +1,4 @@
-package chat;
+package main;
 
 public class User {
 	
@@ -6,10 +6,16 @@ public class User {
 	public String name;
 	public String password;
 	
-	public User(String type, String name, String password){
-		this.type=type;
-		this.name=name;
-		this.password=password;
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	public String getType(){
@@ -22,5 +28,5 @@ public class User {
 	
 	public String getPassword(){
 		return password;
-	}	
+	}
 }

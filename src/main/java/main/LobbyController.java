@@ -1,4 +1,4 @@
-package chat;
+package main;
 
 import java.util.ArrayList;
 
@@ -16,9 +16,9 @@ public class LobbyController {
 	}
 	
 	private void mockRooms(){
-		rooms.add(new Room("Awesome room!"));
-		rooms.add(new Room("I hate my room!"));
-		rooms.add(new Room("Cats in here"));
+		rooms.add(new Room("A room"));
+		rooms.add(new Room("Another room"));
+		rooms.add(new Room("Users in here"));
 		rooms.add(new Room("Arghh pirates only"));
 	}
 
