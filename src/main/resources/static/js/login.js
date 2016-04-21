@@ -1,4 +1,3 @@
-var loggedSuccess = false;
 var stompClient = null;
 
 function init(){
@@ -25,21 +24,21 @@ function disconnect() {
     console.log("Disconnected");
 }
 
+//Here we process the answer from the server
 function loadUser(message){
-	user=message;
-	setUser(user);
-	loggedSuccess=true;
-	console.log(user);
-	if(loggedSuccess){
-		window.location.href = "lobby.html";
-	}	
+	if(message!=null){
+		user=message;
+		setUser(user);
+		window.location.href = "lobby.html";			
+	}
 }
 
 function checkUser() {
     stompClient.send("/app/login", {}, JSON.stringify(user));
 }
 
-function logIn(){ // We perform the initial user login here
+//We perform the initial user login
+function logIn(){ 
 	user.name = document.getElementById('name').value;
 	user.password = document.getElementById('password').value;
 	checkUser();

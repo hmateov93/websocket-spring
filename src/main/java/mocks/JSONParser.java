@@ -18,8 +18,8 @@ public class JSONParser {
 		return mapper.readValue(new FileInputStream(usersjson), User[].class );		
 	}
 	
-	public static void addRegisteredUser(User user) throws JsonGenerationException, JsonMappingException, IOException {
+	public static void writeRegisteredUsers(User[] users) throws JsonGenerationException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.writeValue(new FileOutputStream(usersjson), user );	
+		mapper.writeValue(new FileOutputStream(usersjson), users );	
 	}	
 }
