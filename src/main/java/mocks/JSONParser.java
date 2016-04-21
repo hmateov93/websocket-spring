@@ -11,13 +11,15 @@ import main.User;
 
 public class JSONParser {
 	
-	public static User[] fetchRegisteredUsers(String file) throws JsonGenerationException, JsonMappingException, IOException {
+	private static String usersjson = "src/main/java/mocks/users.json";
+	
+	public static User[] fetchRegisteredUsers() throws JsonGenerationException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		return mapper.readValue(new FileInputStream(file), User[].class );		
+		return mapper.readValue(new FileInputStream(usersjson), User[].class );		
 	}
 	
-	public static void addRegisteredUser(String file, User user) throws JsonGenerationException, JsonMappingException, IOException {
+	public static void addRegisteredUser(User user) throws JsonGenerationException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.writeValue(new FileOutputStream(file), user );		
+		mapper.writeValue(new FileOutputStream(usersjson), user );	
 	}	
 }

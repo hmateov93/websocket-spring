@@ -27,7 +27,12 @@ function disconnect() {
 
 function loadUser(message){
 	user=message;
+	setUser(user);
+	loggedSuccess=true;
 	console.log(user);
+	if(loggedSuccess){
+		window.location.href = "lobby.html";
+	}	
 }
 
 function checkUser() {
@@ -38,8 +43,4 @@ function logIn(){ // We perform the initial user login here
 	user.name = document.getElementById('name').value;
 	user.password = document.getElementById('password').value;
 	checkUser();
-	if(loggedSuccess){
-		setUser(user);
-		window.location.href = "lobby.html";
-	}
 }
