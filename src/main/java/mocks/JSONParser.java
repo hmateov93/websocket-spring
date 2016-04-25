@@ -7,11 +7,13 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import main.Room;
 import main.User;
 
 public class JSONParser {
 	
 	private static String usersjson = "src/main/java/mocks/users.json";
+	private static String roomsjson = "src/main/java/mocks/rooms.json";
 	
 	public static User[] fetchRegisteredUsers() throws JsonGenerationException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
@@ -21,5 +23,20 @@ public class JSONParser {
 	public static void writeRegisteredUsers(User[] users) throws JsonGenerationException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.writeValue(new FileOutputStream(usersjson), users );	
-	}	
+	}
+
+	public static Room[] fetchRooms() throws JsonGenerationException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.readValue(new FileInputStream(roomsjson), Room[].class );		
+	}
+	
+	public static void writeRooms(Room[] rooms) throws JsonGenerationException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.writeValue(new FileOutputStream(roomsjson), rooms );	
+	}		
+	
+	public static String stringifyUserlist(User[]users) throws JsonGenerationException, JsonMappingException, IOException{
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.writeValueAsString(users);
+	}
 }

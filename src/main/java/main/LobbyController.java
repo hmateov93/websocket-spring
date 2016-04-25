@@ -1,33 +1,47 @@
 package main;
 
-import java.util.ArrayList;
+import java.io.IOException;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
+import mocks.JSONParser;
+
 @Controller
 public class LobbyController {
 
-	public ArrayList<Room>rooms = new ArrayList<Room>();
+	public Room[] rooms;
 	
 	public LobbyController(){
-		mockRooms();
+		try {
+			rooms = JSONParser.fetchRooms();
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	
-	private void mockRooms(){
-		rooms.add(new Room("A room"));
-		rooms.add(new Room("Another room"));
-		rooms.add(new Room("Users in here"));
-		rooms.add(new Room("Arghh pirates only"));
-	}
-
 
     @MessageMapping("/lobby")
     @SendTo("/topic/rooms")
-    public Object[] requestRooms(String message) throws Exception {
+    public Room[] requestRooms(String message) throws Exception {
     	Thread.sleep(100); // simulated delay
-        return rooms.toArray();
+        return rooms;
     }	
+    
+    @SuppressWarnings("unused")
+	private Room[] createNewArrayFromOld(Room[]rooms, Room newroom){
+    	Room[] newroomsarray=new Room[rooms.length+1];
+    	for(int i=0;i<rooms.length;i++){
+    		newroomsarray[i]=rooms[i];
+    	}
+    	newroomsarray[newroomsarray.length-1]=newroom;
+    	return newroomsarray;
+    }    
 
 }

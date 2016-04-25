@@ -17,6 +17,7 @@ function connect() {
         stompClient.subscribe('/topic/messages/'+chatid, function(message){
         	var processedmessage = JSON.parse(message.body);
             showMessage(processedmessage.content);
+            if(processedmessage.userlist!=null)updateUserList(processedmessage.userlist);
         });     
         sendMessage(1);
     });
@@ -43,4 +44,15 @@ function showMessage(message) {
     p.style.wordWrap = 'break-word';
     p.appendChild(document.createTextNode(message));
     response.appendChild(p);
+}
+
+function updateUserList(message){
+	var div = document.getElementById('userListDiv');
+	div.innerHTML = "";
+	var users = JSON.parse(message);
+	for(var i=0;i<users.length;i++){
+		var p = document.createElement('p');
+		p.appendChild(document.createTextNode(users[i].name));
+		div.appendChild(p);
+	}
 }
