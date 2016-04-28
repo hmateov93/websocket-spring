@@ -2,6 +2,7 @@ stompClient = null;
 
 function init(){ // We read the user from cookies and load the rooms
 	getUser();
+	checkLoggedIn();
 	disconnect();
 	connect();
 }
@@ -50,4 +51,8 @@ function loadRooms(message){
 
 function joinRoom(){
 	window.location.href = "/room.html?id="+this.id;
+}
+
+function checkLoggedIn(){
+	if(user.type=="UNASSIGNED")window.location.href = "/index.html";
 }

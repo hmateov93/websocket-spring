@@ -3,6 +3,7 @@ var chatid;
 
 function init(){ // We read the user from cookies
 	getUser();
+	checkLoggedIn();
 	chatid=getQueryVariable("id");
 	disconnect();
 	connect();
@@ -55,4 +56,8 @@ function updateUserList(message){
 		p.appendChild(document.createTextNode(users[i].name));
 		div.appendChild(p);
 	}
+}
+
+function checkLoggedIn(){
+	if(user.type=="UNASSIGNED")window.location.href = "/index.html";
 }
