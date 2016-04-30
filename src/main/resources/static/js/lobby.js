@@ -54,5 +54,5 @@ function joinRoom(){
 }
 
 function checkLoggedIn(){
-	if(user.type=="UNASSIGNED")window.location.href = "/index.html";
+	if(user.type=="")window.location.href = "/index.html";
 }
