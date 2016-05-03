@@ -9,6 +9,9 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
+import domain.Message;
+import domain.MessageContent;
+import domain.User;
 import mocks.JSONParser;
 
 @Controller
@@ -29,8 +32,8 @@ public class MessageController {
         else if(message.type==1){ //New user joining the channel
         	User user = findUserFromName(JSONParser.fetchRegisteredUsers(), message.getUser());
         	if(user!=null){
-        		if(findUserFromName(chatId,user.name)!=9999){
-        			users.get(Integer.parseInt(chatId)).remove(findUserFromName(chatId,user.name));
+        		if(findUserFromName(chatId,user.getName())!=9999){
+        			users.get(Integer.parseInt(chatId)).remove(findUserFromName(chatId,user.getName()));
         		}	
         		users.get(Integer.parseInt(chatId)).add(user);
         		User[] tempusers = users.get(Integer.parseInt(chatId)).toArray(new User[users.get(Integer.parseInt(chatId)).size()]);
@@ -42,8 +45,8 @@ public class MessageController {
         else if(message.type==2){ //User leaving the channel
         	User user = findUserFromName(JSONParser.fetchRegisteredUsers(), message.getUser());
         	if(user!=null){
-        		if(findUserFromName(chatId,user.name)!=9999){
-        			users.get(Integer.parseInt(chatId)).remove(findUserFromName(chatId,user.name));
+        		if(findUserFromName(chatId,user.getName())!=9999){
+        			users.get(Integer.parseInt(chatId)).remove(findUserFromName(chatId,user.getName()));
         		}	
         		User[] tempusers = users.get(Integer.parseInt(chatId)).toArray(new User[users.get(Integer.parseInt(chatId)).size()]);
         		String finallist = JSONParser.stringifyUserlist(tempusers);

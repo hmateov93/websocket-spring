@@ -1,10 +1,10 @@
-package main;
+package domain;
 
 public class User {
 	
-	public String type;
-	public String name;
-	public String password;
+	private String type;
+	private String name;
+	private String password;
 	
 	public void setType(String type) {
 		this.type = type;

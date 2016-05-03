@@ -56,3 +56,7 @@ function joinRoom(){
 function checkLoggedIn(){
 	if(user.type=="")window.location.href = "/index.html";
 }
+
+function goToCreateRoom(){
+	window.location.href = "/create_room.html";
+}

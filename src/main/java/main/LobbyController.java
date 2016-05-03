@@ -8,11 +8,13 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
+import domain.Room;
 import mocks.JSONParser;
 
 @Controller
 public class LobbyController {
 
+	//TODO: Change primitive array to arraylist
 	public Room[] rooms;
 	
 	public LobbyController(){
@@ -33,6 +35,14 @@ public class LobbyController {
     	Thread.sleep(100); // simulated delay
         return rooms;
     }	
+    
+    @MessageMapping("/createRoom")
+    @SendTo("/topic/rooms")
+    public Room[] createRoom(Room room) throws Exception {
+    	Thread.sleep(100); // simulated delay
+    	this.rooms = createNewArrayFromOld(this.rooms, room);
+        return rooms;
+    }	    
     
     @SuppressWarnings("unused")
 	private Room[] createNewArrayFromOld(Room[]rooms, Room newroom){

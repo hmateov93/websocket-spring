@@ -7,8 +7,8 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import main.Room;
-import main.User;
+import domain.Room;
+import domain.User;
 
 public class JSONParser {
 	

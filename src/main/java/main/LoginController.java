@@ -4,6 +4,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
+import domain.User;
 import mocks.JSONParser;
 
 @Controller
@@ -17,16 +18,16 @@ public class LoginController {
     	User newuser=null;
     	User[] users = JSONParser.fetchRegisteredUsers();
     	for(int i=0;i<users.length;i++){   	
-    		if(users[i].name.equals(user.name)){
+    		if(users[i].getName().equals(user.getName())){
     			userexists=true;
-    			if(users[i].password.equals(user.password)){
+    			if(users[i].getPassword().equals(user.getPassword())){
     				newuser=users[i];
     			}
     		}
     	}
         if(newuser==null && userexists==false){
         	newuser=user;
-        	newuser.type="USER";
+        	newuser.setType("USER");
         	JSONParser.writeRegisteredUsers(createNewArrayFromOld(users,newuser));
         }
         return newuser;

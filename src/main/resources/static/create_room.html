@@ -5,12 +5,13 @@
     <script src="sockjs-0.3.4.js"></script>
     <script src="stomp.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
-    <script type="text/javascript" src="js/lobby.js"></script>
+    <script type="text/javascript" src="js/create_room.js"></script>
 </head>
 <body onload="init()">
-<nav>
-<button onclick="goToCreateRoom();">Create Room</button>
-</nav>
-<div id="rooms"></div>
+<div id="create_form">
+	<label>Name</label>
+	<input type="text" id="name"><br>
+	<button onclick="createRoom();">Create</button>
+</div>
 </body>
 </html>
