@@ -1,4 +1,4 @@
-stompClient = null;
+var stompClient = null;
 
 function init(){ // We read the user from cookies
 	getUser();
@@ -11,7 +11,7 @@ function connect() {
     var socket = new SockJS('/createRoom');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function(frame) {
-        console.log('Connected: ' + frame);
+        console.log('Connected: ' + frame);      
     }); 
 }
 
@@ -27,7 +27,7 @@ function checkLoggedIn(){
 }
 
 function createRoom(){
-	var name = document.getElementById('name');
+	var name = document.getElementById('name').value;
 	var newroom= { 'id': 500, 'name': name};
     stompClient.send("/app/createRoom", {}, JSON.stringify(newroom));	
     disconnect();

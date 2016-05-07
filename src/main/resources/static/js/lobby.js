@@ -33,9 +33,10 @@ function requestRooms() {
 }
 
 function loadRooms(message){
+	var roomscontainer = document.getElementById('rooms');
+	roomscontainer.innerHTML = "";
 	for(var i=0;i<message.length;i++){
 		room=message[i];
-		var roomscontainer = document.getElementById('rooms');
 	    var p = document.createElement('p');
 	    var button = document.createElement('button');
 	    button.id = room.id;
