@@ -2,6 +2,7 @@ package main;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -21,7 +22,7 @@ public class LobbyController {
 
 	//TODO: Change primitive array to arraylist
 	public Room[] rooms;
-	public ArrayList<ArrayList<User>>users = new ArrayList<ArrayList<User>>();
+	public HashMap<String, ArrayList<User>>users = new HashMap<String, ArrayList<User>>();
 	
 	public LobbyController(){
 		try {
@@ -47,14 +48,23 @@ public class LobbyController {
     @SendTo("/topic/rooms")
     public Room[] createRoom(Room room) throws Exception {
     	Thread.sleep(100); // simulated delay
-    	this.rooms = createNewArrayFromOld(room);
+    	this.rooms = addRoomToArray(room);
     	JSONParser.writeRooms(rooms);
-    	users.add(new ArrayList<User>());
+    	users.put(""+room.getId(), new ArrayList<User>());
         return rooms;
     }	    
     
-    @SuppressWarnings("unused")
-	private Room[] createNewArrayFromOld(Room newroom){
+    @MessageMapping("/deleteRoom")
+    @SendTo("/topic/rooms")
+    public Room[] deleteRoom(String message) throws Exception {
+    	Thread.sleep(100); // simulated delay
+    	this.rooms = deleteRoomFromArray(Integer.parseInt(message));
+    	JSONParser.writeRooms(rooms);
+    	users.remove(""+Integer.parseInt(message));
+        return rooms;
+    }	       
+    
+	private Room[] addRoomToArray(Room newroom){
     	Room[] newroomsarray=new Room[rooms.length+1];
     	for(int i=0;i<rooms.length;i++){
     		newroomsarray[i]=rooms[i];
@@ -65,7 +75,19 @@ public class LobbyController {
     }    
     
 	
-
+	private Room[] deleteRoomFromArray(int index){
+    	Room[] newroomsarray=new Room[rooms.length-1];
+    	int newarrayindex = 0;
+    	for(int i=0;i<rooms.length;i++){
+    		if(rooms[i].getId()!=index){
+    			newroomsarray[newarrayindex]=rooms[i];
+    			newarrayindex++;
+    		}
+    		
+    	}
+    	return newroomsarray;
+    }    
+    
 	
 	
     @MessageMapping("/chat/{chatId}")
@@ -106,7 +128,7 @@ public class LobbyController {
     	try {
 			int roomnumber = JSONParser.fetchRooms().length;
 			for(int i=0;i<roomnumber;i++){
-				users.add(new ArrayList<User>());
+				users.put(""+rooms[i].getId(),new ArrayList<User>());
 			}
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();

@@ -38,13 +38,18 @@ function loadRooms(message){
 	for(var i=0;i<message.length;i++){
 		room=message[i];
 	    var p = document.createElement('p');
-	    var button = document.createElement('button');
-	    button.id = room.id;
-	    button.addEventListener("click", joinRoom);
-	    button.appendChild(document.createTextNode("Join!"));
+	    var joinbutton = document.createElement('button');
+	    var deletebutton = document.createElement('button');
+	    joinbutton.id = room.id;
+	    deletebutton.id = room.id;
+	    joinbutton.addEventListener("click", joinRoom);
+	    deletebutton.addEventListener("click", deleteRoom);
+	    joinbutton.appendChild(document.createTextNode("Join"));
+	    deletebutton.appendChild(document.createTextNode("Delete"));
 	    p.appendChild(document.createTextNode(room.name));
 	    p.appendChild(document.createElement('br'));
-	    p.appendChild(button);
+	    p.appendChild(joinbutton);
+	    p.appendChild(deletebutton);
 	    roomscontainer.appendChild(p);
 	}
 
@@ -60,4 +65,8 @@ function checkLoggedIn(){
 
 function goToCreateRoom(){
 	window.location.href = "/create_room.html";
+}
+
+function deleteRoom(){
+    stompClient.send("/app/deleteRoom", {}, ""+this.id);	
 }
