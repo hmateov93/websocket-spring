@@ -21,13 +21,17 @@ import mocks.JSONParser;
 public class LobbyController {
 
 	//TODO: Change primitive array to arraylist
-	public Room[] rooms;
-	public HashMap<String, ArrayList<User>>users = new HashMap<String, ArrayList<User>>();
+	public ArrayList<Room> rooms;
+	public HashMap<String, ArrayList<User>>users;
 	
 	public LobbyController(){
 		try {
-			rooms = JSONParser.fetchRooms();
-			createUserLists();
+			rooms = arrayToArrayList(JSONParser.fetchRooms());
+			formatRooms();
+			users = new HashMap<String, ArrayList<User>>();
+			for(int i=0;i<rooms.size();i++){
+				users.put(""+rooms.get(i).getId(),new ArrayList<User>());
+			}
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -41,55 +45,30 @@ public class LobbyController {
     @SendTo("/topic/rooms")
     public Room[] requestRooms(String message) throws Exception {
     	Thread.sleep(100); // simulated delay
-        return rooms;
+        return arrayListToArray(rooms);
     }	
     
     @MessageMapping("/createRoom")
     @SendTo("/topic/rooms")
     public Room[] createRoom(Room room) throws Exception {
     	Thread.sleep(100); // simulated delay
-    	this.rooms = addRoomToArray(room);
-    	JSONParser.writeRooms(rooms);
+    	room.setId(findNewId(0));
+    	this.rooms.add(room);
+    	JSONParser.writeRooms(arrayListToArray(rooms));
     	users.put(""+room.getId(), new ArrayList<User>());
-        return rooms;
+        return arrayListToArray(rooms);
     }	    
     
     @MessageMapping("/deleteRoom")
     @SendTo("/topic/rooms")
     public Room[] deleteRoom(String message) throws Exception {
     	Thread.sleep(100); // simulated delay
-    	this.rooms = deleteRoomFromArray(Integer.parseInt(message));
-    	JSONParser.writeRooms(rooms);
+    	this.rooms.remove(Integer.parseInt(message));
+    	JSONParser.writeRooms(arrayListToArray(rooms));
     	users.remove(""+Integer.parseInt(message));
-        return rooms;
+        return arrayListToArray(rooms);
     }	       
     
-	private Room[] addRoomToArray(Room newroom){
-    	Room[] newroomsarray=new Room[rooms.length+1];
-    	for(int i=0;i<rooms.length;i++){
-    		newroomsarray[i]=rooms[i];
-    	}
-    	newroom.setId(newroomsarray.length-1);
-    	newroomsarray[newroomsarray.length-1]=newroom;
-    	return newroomsarray;
-    }    
-    
-	
-	private Room[] deleteRoomFromArray(int index){
-    	Room[] newroomsarray=new Room[rooms.length-1];
-    	int newarrayindex = 0;
-    	for(int i=0;i<rooms.length;i++){
-    		if(rooms[i].getId()!=index){
-    			newroomsarray[newarrayindex]=rooms[i];
-    			newarrayindex++;
-    		}
-    		
-    	}
-    	return newroomsarray;
-    }    
-    
-	
-	
     @MessageMapping("/chat/{chatId}")
     @SendTo("/topic/messages/{chatId}")
     public Message message(MessageContent message, @DestinationVariable String chatId) throws Exception {
@@ -124,20 +103,44 @@ public class LobbyController {
         return finalmessage;
     }
     
-    private void createUserLists(){
-    	try {
-			int roomnumber = JSONParser.fetchRooms().length;
-			for(int i=0;i<roomnumber;i++){
-				users.put(""+rooms[i].getId(),new ArrayList<User>());
-			}
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    private int findNewId(int id){
+    	if(!checkIdAvailable(id)){
+    		return id;
+    	}
+    	else return findNewId(id+1);
     }
+    
+    private boolean checkIdAvailable(int id){
+    	boolean found=false;
+    	for(int i=0;i<rooms.size();i++){
+    		if(id==rooms.get(i).getId())found=true;
+    	}
+    	if(rooms.isEmpty()==true)found=true;
+    	return found;
+    }
+      
+	
+	private ArrayList<Room> arrayToArrayList(Room[]rooms){
+		ArrayList<Room>roomslist = new ArrayList<Room>();
+		for(int i=0;i<rooms.length;i++){
+			roomslist.add(rooms[i]);
+		}
+		return roomslist;
+	}
+  
+	private Room[] arrayListToArray(ArrayList<Room>rooms){
+		Room[]roomsarray = new Room[rooms.size()];
+		for(int i=0;i<rooms.size();i++){
+			roomsarray[i] = rooms.get(i);
+		}
+		return roomsarray;
+	}
+	
+	private void formatRooms(){
+		for(int i=0;i<rooms.size();i++){
+			rooms.get(i).setId(i);
+		}
+	}
     
     //We use this method when dealing with the arraylist
     private int findUserFromName(String chatId, String name){
