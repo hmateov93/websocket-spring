@@ -27,7 +27,6 @@ public class LobbyController {
 	public LobbyController(){
 		try {
 			rooms = arrayToArrayList(JSONParser.fetchRooms());
-			formatRooms();
 			users = new HashMap<String, ArrayList<User>>();
 			for(int i=0;i<rooms.size();i++){
 				users.put(""+rooms.get(i).getId(),new ArrayList<User>());
@@ -63,7 +62,7 @@ public class LobbyController {
     @SendTo("/topic/rooms")
     public Room[] deleteRoom(String message) throws Exception {
     	Thread.sleep(100); // simulated delay
-    	this.rooms.remove(Integer.parseInt(message));
+    	this.rooms.remove(findRoomFromId(Integer.parseInt(message)));
     	JSONParser.writeRooms(arrayListToArray(rooms));
     	users.remove(""+Integer.parseInt(message));
         return arrayListToArray(rooms);
@@ -115,7 +114,6 @@ public class LobbyController {
     	for(int i=0;i<rooms.size();i++){
     		if(id==rooms.get(i).getId())found=true;
     	}
-    	if(rooms.isEmpty()==true)found=true;
     	return found;
     }
       
@@ -136,12 +134,14 @@ public class LobbyController {
 		return roomsarray;
 	}
 	
-	private void formatRooms(){
+	private int findRoomFromId(int id){
+		int index = 9999;
 		for(int i=0;i<rooms.size();i++){
-			rooms.get(i).setId(i);
+			if(rooms.get(i).getId()==id)index=i;
 		}
+		return index;
 	}
-    
+	
     //We use this method when dealing with the arraylist
     private int findUserFromName(String chatId, String name){
     	int index = 9999;
