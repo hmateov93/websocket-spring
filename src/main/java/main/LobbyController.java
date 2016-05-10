@@ -73,27 +73,33 @@ public class LobbyController {
     public Message message(MessageContent message, @DestinationVariable String chatId) throws Exception {
         Thread.sleep(100); // simulated delay
         Message finalmessage=null;
-        if(message.type==0)finalmessage = new Message(message.getUser() + " : " + message.getContent(), null); //Plain communication between users
-        else if(message.type==1){ //New user joining the channel
+        
+        //Plain communication between users
+        if(message.type==0)finalmessage = new Message(message.getUser() + " : " + message.getContent(), null); 
+     
+        //New user joining the channel
+        else if(message.type==1){ 
         	User user = findUserFromName(JSONParser.fetchRegisteredUsers(), message.getUser());
-        	if(user!=null){
+        	if(user!=null && users.get(chatId)!=null){
         		if(findUserFromName(chatId,user.getName())!=9999){
         			users.get(Integer.parseInt(chatId)).remove(findUserFromName(chatId,user.getName()));
         		}	
-        		users.get(Integer.parseInt(chatId)).add(user);
-        		User[] tempusers = users.get(Integer.parseInt(chatId)).toArray(new User[users.get(Integer.parseInt(chatId)).size()]);
+        		users.get(chatId).add(user);
+        		User[] tempusers = users.get(chatId).toArray(new User[users.get(chatId).size()]);
         		String finallist = JSONParser.stringifyUserlist(tempusers);
         		finalmessage = new Message(message.getUser() + " joined the channel", finallist); 
         	}
         	else finalmessage = new Message("ERROR", null); 
         }
-        else if(message.type==2){ //User leaving the channel
+        
+        //User leaving the channel
+        else if(message.type==2){ 
         	User user = findUserFromName(JSONParser.fetchRegisteredUsers(), message.getUser());
-        	if(user!=null){
+        	if(user!=null && users.get(chatId)!=null){
         		if(findUserFromName(chatId,user.getName())!=9999){
-        			users.get(Integer.parseInt(chatId)).remove(findUserFromName(chatId,user.getName()));
+        			users.get(chatId).remove(findUserFromName(chatId,user.getName()));
         		}	
-        		User[] tempusers = users.get(Integer.parseInt(chatId)).toArray(new User[users.get(Integer.parseInt(chatId)).size()]);
+        		User[] tempusers = users.get(chatId).toArray(new User[users.get(chatId).size()]);
         		String finallist = JSONParser.stringifyUserlist(tempusers);
         		finalmessage = new Message(message.getUser() + " left the channel", finallist);  
         	}
@@ -101,6 +107,7 @@ public class LobbyController {
         }
         return finalmessage;
     }
+
     
     private int findNewId(int id){
     	if(!checkIdAvailable(id)){
@@ -145,8 +152,8 @@ public class LobbyController {
     //We use this method when dealing with the arraylist
     private int findUserFromName(String chatId, String name){
     	int index = 9999;
-    	for(int i=0;i<users.get(Integer.parseInt(chatId)).size();i++){
-    		if(users.get(Integer.parseInt(chatId)).get(i).getName().equals(name))index=i;
+    	for(int i=0;i<users.get(chatId).size();i++){
+    		if(users.get(chatId).get(i).getName().equals(name))index=i;
     	}
     	return index;
     }     
