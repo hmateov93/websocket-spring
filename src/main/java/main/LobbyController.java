@@ -82,7 +82,7 @@ public class LobbyController {
         	User user = findUserFromName(JSONParser.fetchRegisteredUsers(), message.getUser());
         	if(user!=null && users.get(chatId)!=null){
         		if(findUserFromName(chatId,user.getName())!=9999){
-        			users.get(Integer.parseInt(chatId)).remove(findUserFromName(chatId,user.getName()));
+        			users.get(chatId).remove(findUserFromName(chatId,user.getName()));
         		}	
         		users.get(chatId).add(user);
         		User[] tempusers = users.get(chatId).toArray(new User[users.get(chatId).size()]);

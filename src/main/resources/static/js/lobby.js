@@ -42,6 +42,8 @@ function loadRooms(message){
 	    var deletebutton = document.createElement('button');
 	    joinbutton.id = room.id;
 	    deletebutton.id = room.id;
+	    joinbutton.className = "joinbutton";
+	    deletebutton.className = "deletebutton";
 	    joinbutton.addEventListener("click", joinRoom);
 	    deletebutton.addEventListener("click", deleteRoom);
 	    joinbutton.appendChild(document.createTextNode("Join"));
