@@ -4,6 +4,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
+import domain.EncapsulatedUser;
 import domain.User;
 import mocks.JSONParser;
 
@@ -12,8 +13,7 @@ public class LoginController {
 
     @MessageMapping("/login")
     @SendTo("/topic/login")
-    public User checkUser(User user) throws Exception {
-    	Thread.sleep(100); // simulated delay
+    public EncapsulatedUser checkUser(User user) throws Exception {
     	boolean userexists=false;
     	User newuser=null;
     	User[] users = JSONParser.fetchRegisteredUsers();
@@ -22,6 +22,7 @@ public class LoginController {
     			userexists=true;
     			if(users[i].getPassword().equals(user.getPassword())){
     				newuser=users[i];
+    				return new EncapsulatedUser("OK", newuser);
     			}
     		}
     	}
@@ -29,8 +30,9 @@ public class LoginController {
         	newuser=user;
         	newuser.setType("USER");
         	JSONParser.writeRegisteredUsers(createNewArrayFromOld(users,newuser));
+        	return new EncapsulatedUser("OK", newuser);
         }
-        return newuser;
+        return new EncapsulatedUser("INVALID_PASSWORD", newuser);
     }
     
     

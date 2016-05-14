@@ -1,4 +1,5 @@
 var stompClient = null;
+var error = null;
 
 function init(){
 	disconnect();
@@ -26,10 +27,14 @@ function disconnect() {
 
 //Here we process the answer from the server
 function loadUser(message){
-	if(message!=null){
-		user=message;
+	if(message.code === "OK"){
+		user=message.user;
 		setUser(user);
 		window.location.href = "lobby.html";			
+	}
+	if(message.code === "INVALID_PASSWORD"){
+		document.getElementById('error').innerHTML = "";
+		document.getElementById('error').appendChild(document.createTextNode("Invalid Password"));
 	}
 }
 

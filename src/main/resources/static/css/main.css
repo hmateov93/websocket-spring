@@ -4,3 +4,9 @@ body{
 	background-image: url("images/Background.png");
 	color: white;
 }
+
+#error{
+	font-style: italic;
+	color: #CC0000;
+	font-size: 16px;
+}
