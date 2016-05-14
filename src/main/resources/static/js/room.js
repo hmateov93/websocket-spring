@@ -19,7 +19,8 @@ function connect() {
         	var processedmessage = JSON.parse(message.body);
             showMessage(processedmessage.content);
             if(processedmessage.userlist!=null)updateUserList(processedmessage.userlist);
-        });     
+            if(processedmessage.roomActive==false) disconnect();
+        });         
         sendMessage(1);
     });
 }

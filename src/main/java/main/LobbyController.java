@@ -64,7 +64,7 @@ public class LobbyController {
     	Thread.sleep(100); // simulated delay
     	this.rooms.remove(findRoomFromId(Integer.parseInt(message)));
     	JSONParser.writeRooms(arrayListToArray(rooms));
-    	users.remove(""+Integer.parseInt(message));
+    	users.remove(message);
         return arrayListToArray(rooms);
     }	       
     
@@ -75,7 +75,7 @@ public class LobbyController {
         Message finalmessage=null;
         
         //Plain communication between users
-        if(message.type==0)finalmessage = new Message(message.getUser() + " : " + message.getContent(), null); 
+        if(message.type==0)finalmessage = new Message(message.getUser() + " : " + message.getContent(), null,true); 
      
         //New user joining the channel
         else if(message.type==1){ 
@@ -87,9 +87,9 @@ public class LobbyController {
         		users.get(chatId).add(user);
         		User[] tempusers = users.get(chatId).toArray(new User[users.get(chatId).size()]);
         		String finallist = JSONParser.stringifyUserlist(tempusers);
-        		finalmessage = new Message(message.getUser() + " joined the channel", finallist); 
+        		finalmessage = new Message(message.getUser() + " joined the channel", finallist, true); 
         	}
-        	else finalmessage = new Message("ERROR", null); 
+        	else finalmessage = new Message("ERROR", null,false); 
         }
         
         //User leaving the channel
@@ -101,10 +101,12 @@ public class LobbyController {
         		}	
         		User[] tempusers = users.get(chatId).toArray(new User[users.get(chatId).size()]);
         		String finallist = JSONParser.stringifyUserlist(tempusers);
-        		finalmessage = new Message(message.getUser() + " left the channel", finallist);  
+        		finalmessage = new Message(message.getUser() + " left the channel", finallist, true);  
         	}
-        	else finalmessage = new Message("ERROR", null);         	
+        	else finalmessage = new Message("ERROR", null, false);         	
         }
+        
+        if(users.get(chatId)==null)finalmessage = new Message("ERROR", null, false);
         return finalmessage;
     }
 
