@@ -7,7 +7,6 @@ function init(){ // We read the user from cookies
 	chatid=getQueryVariable("id");
 	disconnect();
 	connect();
-	
 }
 
 function connect() {
