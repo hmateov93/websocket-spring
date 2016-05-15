@@ -19,7 +19,7 @@ function connect() {
         	var processedmessage = JSON.parse(message.body);
             showMessage(processedmessage.content);
             if(processedmessage.userlist!=null)updateUserList(processedmessage.userlist);
-            if(processedmessage.roomActive==false) disconnect();
+            //if(processedmessage.roomActive==false) disconnect();
         });         
         sendMessage(1);
     });
@@ -41,7 +41,7 @@ function sendMessage(type) {
 }
 
 function showMessage(message) {
-    var response = document.getElementById('response');
+    var response = document.getElementById('conversationDiv');
     var p = document.createElement('p');
     p.style.wordWrap = 'break-word';
     p.appendChild(document.createTextNode(message));
