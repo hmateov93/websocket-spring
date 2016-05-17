@@ -35,23 +35,33 @@ function requestRooms() {
 function loadRooms(message){
 	var roomscontainer = document.getElementById('rooms');
 	roomscontainer.innerHTML = "";
+	
+	if(user.type!="ADMIN"){
+		document.getElementById('menu').style.display = "none";
+	}
+
 	for(var i=0;i<message.length;i++){
 		room=message[i];
 	    var p = document.createElement('p');
 	    var joinbutton = document.createElement('button');
-	    var deletebutton = document.createElement('button');
 	    joinbutton.id = room.id;
-	    deletebutton.id = room.id;
-	    joinbutton.className = "joinbutton";
-	    deletebutton.className = "deletebutton";
-	    joinbutton.addEventListener("click", joinRoom);
-	    deletebutton.addEventListener("click", deleteRoom);
+	    joinbutton.className = "joinbutton"; 
+	    joinbutton.addEventListener("click", joinRoom); 
 	    joinbutton.appendChild(document.createTextNode("Join"));
-	    deletebutton.appendChild(document.createTextNode("Delete"));
+	    
 	    p.appendChild(document.createTextNode(room.name));
 	    p.appendChild(document.createElement('br'));
 	    p.appendChild(joinbutton);
-	    p.appendChild(deletebutton);
+
+	    if(user.type=="ADMIN"){
+	    	var deletebutton = document.createElement('button');
+		    deletebutton.id = room.id;
+	    	deletebutton.className = "deletebutton";
+	    	deletebutton.addEventListener("click", deleteRoom);
+	    	deletebutton.appendChild(document.createTextNode("Delete"));
+	    	p.appendChild(deletebutton);
+	    }
+
 	    roomscontainer.appendChild(p);
 	}
 
