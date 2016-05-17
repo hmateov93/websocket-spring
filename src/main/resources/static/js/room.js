@@ -53,6 +53,7 @@ function updateUserList(message){
 	var users = JSON.parse(message);
 	for(var i=0;i<users.length;i++){
 		var p = document.createElement('p');
+		if(users[i].type=="ADMIN")p.className = "user_admin";
 		p.appendChild(document.createTextNode(users[i].name));
 		div.appendChild(p);
 	}
