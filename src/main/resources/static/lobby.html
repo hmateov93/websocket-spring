@@ -12,8 +12,12 @@
 </head>
 <body onload="init()">
 <nav id="menu">
-<button onclick="goToCreateRoom();">Create Room</button>
+	<button id="manage_rooms_button" onclick="goToManageRooms();">Manage Rooms</button>
+	<button id="manage_users_button" onclick="goToManageUsers();">Manage Users</button>	
+	<button id="create_room_button" onclick="goToCreateRoom();">Create Room</button>
+	<button id="create_user_button" onclick="goToCreateUser();">Create User</button>
 </nav>
 <div id="rooms"></div>
+<div id="users"></div>
 </body>
 </html>

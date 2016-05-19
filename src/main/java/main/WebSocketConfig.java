@@ -24,6 +24,9 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 		registry.addEndpoint("/createRoom").withSockJS();
 		registry.addEndpoint("/editRoom").withSockJS();
 		registry.addEndpoint("/deleteRoom").withSockJS();
+		registry.addEndpoint("/createUser").withSockJS();
+		registry.addEndpoint("/deleteUser").withSockJS();
+		registry.addEndpoint("/users").withSockJS();
 	}
 
 }

@@ -2,6 +2,7 @@ package main;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import org.codehaus.jackson.JsonGenerationException;
@@ -18,15 +19,15 @@ import domain.User;
 import mocks.JSONParser;
 
 @Controller
-public class LobbyController {
+public class AppController {
 
 	//TODO: Change primitive array to arraylist
 	public ArrayList<Room> rooms;
 	public HashMap<String, ArrayList<User>>users;
 	
-	public LobbyController(){
+	public AppController(){
 		try {
-			rooms = arrayToArrayList(JSONParser.fetchRooms());
+			rooms = roomArrayToArrayList(JSONParser.fetchRooms());
 			users = new HashMap<String, ArrayList<User>>();
 			for(int i=0;i<rooms.size();i++){
 				users.put(""+rooms.get(i).getId(),new ArrayList<User>());
@@ -43,35 +44,65 @@ public class LobbyController {
     @MessageMapping("/lobby")
     @SendTo("/topic/rooms")
     public Room[] requestRooms(String message) throws Exception {
-    	Thread.sleep(100); // simulated delay
-        return arrayListToArray(rooms);
+        return roomArrayListToArray(rooms);
     }	
     
     @MessageMapping("/createRoom")
     @SendTo("/topic/rooms")
     public Room[] createRoom(Room room) throws Exception {
-    	Thread.sleep(100); // simulated delay
     	room.setId(findNewId(0));
     	this.rooms.add(room);
-    	JSONParser.writeRooms(arrayListToArray(rooms));
+    	JSONParser.writeRooms(roomArrayListToArray(rooms));
     	users.put(""+room.getId(), new ArrayList<User>());
-        return arrayListToArray(rooms);
+        return roomArrayListToArray(rooms);
     }	    
     
     @MessageMapping("/deleteRoom")
     @SendTo("/topic/rooms")
     public Room[] deleteRoom(String message) throws Exception {
-    	Thread.sleep(100); // simulated delay
     	this.rooms.remove(findRoomFromId(Integer.parseInt(message)));
-    	JSONParser.writeRooms(arrayListToArray(rooms));
+    	JSONParser.writeRooms(roomArrayListToArray(rooms));
     	users.remove(message);
-        return arrayListToArray(rooms);
-    }	       
+        return roomArrayListToArray(rooms);
+    }	 
+    
+    @MessageMapping("/createUser")
+    @SendTo("/topic/users")
+    public User[] createUser(User user) throws Exception {
+    	ArrayList<User>users = null;
+    		users = userArrayToArrayList(JSONParser.fetchRegisteredUsers());
+        	users.add(user);    	
+        	JSONParser.writeRegisteredUsers(userArrayListToArray(users));
+            return userArrayListToArray(users);
+    }	
+    
+    @MessageMapping("/deleteUser")
+    @SendTo("/topic/users")
+    public User[] deleteUser(String name) throws Exception {
+    	ArrayList<User>users = null;
+		users = userArrayToArrayList(JSONParser.fetchRegisteredUsers());
+		for(int i=0;i<users.size();i++){
+			if(name.equals(users.get(i).getName())){
+				users.remove(users.get(i));  
+			}
+		}	  	
+		JSONParser.writeRegisteredUsers(userArrayListToArray(users));
+        return userArrayListToArray(users);
+    }    
+    
+    @MessageMapping("/users")
+    @SendTo("/topic/users")
+    public User[] getUsers(User user) throws Exception {
+    	User[]users = null;
+    	if(user.getType().equals("ADMIN")){
+    		users = JSONParser.fetchRegisteredUsers();
+    	}
+        return users;
+    }	    
     
     @MessageMapping("/chat/{chatId}")
     @SendTo("/topic/messages/{chatId}")
     public Message message(MessageContent message, @DestinationVariable String chatId) throws Exception {
-        Thread.sleep(100); // simulated delay
         Message finalmessage=null;
         
         //Plain communication between users
@@ -127,7 +158,7 @@ public class LobbyController {
     }
       
 	
-	private ArrayList<Room> arrayToArrayList(Room[]rooms){
+	private ArrayList<Room> roomArrayToArrayList(Room[]rooms){
 		ArrayList<Room>roomslist = new ArrayList<Room>();
 		for(int i=0;i<rooms.length;i++){
 			roomslist.add(rooms[i]);
@@ -135,13 +166,29 @@ public class LobbyController {
 		return roomslist;
 	}
   
-	private Room[] arrayListToArray(ArrayList<Room>rooms){
+	private Room[] roomArrayListToArray(ArrayList<Room>rooms){
 		Room[]roomsarray = new Room[rooms.size()];
 		for(int i=0;i<rooms.size();i++){
 			roomsarray[i] = rooms.get(i);
 		}
 		return roomsarray;
 	}
+	
+	private ArrayList<User> userArrayToArrayList(User[]users){
+		ArrayList<User>roomslist = new ArrayList<User>();
+		for(int i=0;i<users.length;i++){
+			roomslist.add(users[i]);
+		}
+		return roomslist;
+	}
+  
+	private User[] userArrayListToArray(ArrayList<User>users){
+		User[]roomsarray = new User[users.size()];
+		for(int i=0;i<users.size();i++){
+			roomsarray[i] = users.get(i);
+		}
+		return roomsarray;
+	}	
 	
 	private int findRoomFromId(int id){
 		int index = 9999;
@@ -168,5 +215,6 @@ public class LobbyController {
     	}
     	return user;
     }    
+        
 
 }

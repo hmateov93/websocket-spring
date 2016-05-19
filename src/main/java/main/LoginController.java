@@ -22,6 +22,7 @@ public class LoginController {
     			userexists=true;
     			if(users[i].getPassword().equals(user.getPassword())){
     				newuser=users[i];
+    				newuser.setStatus("OK");
     				return new EncapsulatedUser("OK", newuser);
     			}
     		}

@@ -5,7 +5,16 @@ public class User {
 	private String type;
 	private String name;
 	private String password;
+	private String status="OK";
 	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public void setType(String type) {
 		this.type = type;
 	}
