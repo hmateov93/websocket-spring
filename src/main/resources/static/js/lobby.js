@@ -94,9 +94,15 @@ function loadUsers(message){
     	deletebutton.className = "userdeletebutton";
     	deletebutton.addEventListener("click", deleteUser);
     	deletebutton.appendChild(document.createTextNode("Delete"));
-    		    
-	    p.appendChild(document.createTextNode(localuser.name));
+    	
+	    p.appendChild(document.createTextNode("Name: "+localuser.name));
 	    p.appendChild(document.createElement('br'));
+	    p.appendChild(document.createTextNode("Password: "+localuser.password));
+	    p.appendChild(document.createElement('br'));	    
+	    p.appendChild(document.createTextNode("Role: "+localuser.type));
+	    p.appendChild(document.createElement('br'));
+	    p.appendChild(document.createTextNode("Status: "+localuser.status));
+	    p.appendChild(document.createElement('br'));	    
 	    p.appendChild(deletebutton);
 
 
@@ -152,5 +158,6 @@ function deleteRoom(){
 }
 
 function deleteUser(){
-    stompClient.send("/app/deleteUser", {}, ""+this.id);	
+    stompClient.send("/app/deleteUser", {}, ""+this.id);
+    if(user.name == ""+this.id)window.location.href = "/index.html";
 }

@@ -1,1 +1,1 @@
-[{"type":"ADMIN","name":"admin","password":"1234","status":"OK"},{"type":"USER","name":"UserTest","password":"1234","status":"OK"}]
+[{"type":"ADMIN","name":"admin","password":"1234","status":"OK"},{"type":"USER","name":"NewUser","password":"1234","status":"OK"}]

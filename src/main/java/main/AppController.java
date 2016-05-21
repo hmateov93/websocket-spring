@@ -71,8 +71,17 @@ public class AppController {
     public User[] createUser(User user) throws Exception {
     	ArrayList<User>users = null;
     		users = userArrayToArrayList(JSONParser.fetchRegisteredUsers());
-        	users.add(user);    	
-        	JSONParser.writeRegisteredUsers(userArrayListToArray(users));
+    		var found = false;
+    		for(int i=0;i<users.size();i++){
+    			if(users.get(i).getName().equals(user.getName())){
+    				found=true;
+    			}
+    		}
+        	if(found==false){
+        		users.add(user); 
+        		JSONParser.writeRegisteredUsers(userArrayListToArray(users));
+        	}
+        	
             return userArrayListToArray(users);
     }	
     
