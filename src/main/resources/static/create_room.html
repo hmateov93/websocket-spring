@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Chat</title>
+    <script src="sockjs-0.3.4.js"></script>
+    <script src="stomp.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/create_room.js"></script>
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+    <link href="css/create_room.css" rel="stylesheet" type="text/css">     
+</head>
+<body onload="init()">
+<div id="create_form">
+	<label>Name</label>
+	<input type="text" id="name"><br>
+	<button onclick="createRoom();">Create</button>
+	<button onclick="goBack();">Back</button>
+</div>
+</body>
+</html>

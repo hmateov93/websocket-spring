@@ -1,4 +1,4 @@
-package chat;
+package domain;
 
 public class MessageContent {
 

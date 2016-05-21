@@ -2,8 +2,10 @@ stompClient = null;
 
 function init(){ // We read the user from cookies and load the rooms
 	getUser();
+	checkLoggedIn();
 	disconnect();
 	connect();
+	if(user.type=="ADMIN")goToManageRooms();
 }
 
 function connect() {
@@ -14,7 +16,14 @@ function connect() {
         stompClient.subscribe('/topic/rooms', function(message){
         	var processedmessage = JSON.parse(message.body);
         	loadRooms(processedmessage);
-        });  
+        });
+        if(user.type=="ADMIN"){
+            stompClient.subscribe('/topic/users', function(message){
+            	var processedmessage = JSON.parse(message.body);
+            	loadUsers(processedmessage);
+            });         	
+        }
+         
         requestRooms();
     }); 
 }
@@ -31,23 +40,124 @@ function requestRooms() {
     stompClient.send("/app/lobby", {}, message);	
 }
 
+function requestUsers() {
+    stompClient.send("/app/users", {}, JSON.stringify(user));	
+}
+
 function loadRooms(message){
+	var roomscontainer = document.getElementById('rooms');
+	roomscontainer.innerHTML = "";
+	
+	document.getElementById('users').innerHTML = "";
+	
+	if(user.type!="ADMIN"){
+		document.getElementById('menu').style.display = "none";
+	}
+
 	for(var i=0;i<message.length;i++){
 		room=message[i];
-		var roomscontainer = document.getElementById('rooms');
 	    var p = document.createElement('p');
-	    var button = document.createElement('button');
-	    button.id = room.id;
-	    button.addEventListener("click", joinRoom);
-	    button.appendChild(document.createTextNode("Join!"));
+	    var joinbutton = document.createElement('button');
+	    joinbutton.id = room.id;
+	    joinbutton.className = "joinbutton"; 
+	    joinbutton.addEventListener("click", joinRoom); 
+	    joinbutton.appendChild(document.createTextNode("Join"));
+	    
 	    p.appendChild(document.createTextNode(room.name));
 	    p.appendChild(document.createElement('br'));
-	    p.appendChild(button);
+	    p.appendChild(joinbutton);
+
+	    if(user.type=="ADMIN"){
+	    	var deletebutton = document.createElement('button');
+		    deletebutton.id = room.id;
+	    	deletebutton.className = "deletebutton";
+	    	deletebutton.addEventListener("click", deleteRoom);
+	    	deletebutton.appendChild(document.createTextNode("Delete"));
+	    	p.appendChild(deletebutton);
+	    }
+
 	    roomscontainer.appendChild(p);
 	}
 
 }
 
+function loadUsers(message){
+	document.getElementById('rooms').innerHTML = "";
+	var userscontainer= document.getElementById('users');
+	userscontainer.innerHTML = "";
+	console.log(message);
+	for(var i=0;i<message.length;i++){
+		localuser=message[i];
+	    var p = document.createElement('p');
+    	var deletebutton = document.createElement('button');
+	    deletebutton.id = localuser.name;
+    	deletebutton.className = "userdeletebutton";
+    	deletebutton.addEventListener("click", deleteUser);
+    	deletebutton.appendChild(document.createTextNode("Delete"));
+    	
+	    p.appendChild(document.createTextNode("Name: "+localuser.name));
+	    p.appendChild(document.createElement('br'));
+	    p.appendChild(document.createTextNode("Password: "+localuser.password));
+	    p.appendChild(document.createElement('br'));	    
+	    p.appendChild(document.createTextNode("Role: "+localuser.type));
+	    p.appendChild(document.createElement('br'));
+	    p.appendChild(document.createTextNode("Status: "+localuser.status));
+	    p.appendChild(document.createElement('br'));	    
+	    p.appendChild(deletebutton);
+
+
+
+	    userscontainer.appendChild(p);
+	}	
+}
+
+function goToManageUsers(){
+	document.getElementById('rooms').innerHTML = "";
+	
+	document.getElementById('manage_rooms_button').style.display = 'inline';
+	document.getElementById('create_room_button').style.display = 'none';
+
+	document.getElementById('manage_users_button').style.display = 'none';
+	document.getElementById('create_user_button').style.display = 'inline';
+	
+	
+	requestUsers();
+}
+
+function goToManageRooms(){
+	document.getElementById('users').innerHTML = "";
+	
+	document.getElementById('manage_rooms_button').style.display = 'none';
+	document.getElementById('create_room_button').style.display = 'inline';
+	
+	document.getElementById('manage_users_button').style.display = 'inline';
+	document.getElementById('create_user_button').style.display = 'none';
+	
+	requestRooms();
+	
+}
+
 function joinRoom(){
 	window.location.href = "/room.html?id="+this.id;
+}
+
+function checkLoggedIn(){
+	if(user.type=="")window.location.href = "/index.html";
+}
+
+function goToCreateUser(){
+	window.location.href = "/create_user.html";
+}
+
+function goToCreateRoom(){
+	window.location.href = "/create_room.html";
+}
+
+function deleteRoom(){
+    stompClient.send("/app/deleteRoom", {}, ""+this.id);	
+}
+
+function deleteUser(){
+    stompClient.send("/app/deleteUser", {}, ""+this.id);
+    if(user.name == ""+this.id)window.location.href = "/index.html";
 }

@@ -2,17 +2,20 @@
 <html>
 <head>
     <title>WebSocket Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="sockjs-0.3.4.js"></script>
     <script src="stomp.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/login.js"></script>
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+    <link href="css/login.css" rel="stylesheet" type="text/css">
 </head>
-<body>
-<div>
-	Username<br>
-   	<input id="name" type="text"><br>
-   	Password<br>
-   	<input id="password" type="password"><br>
+<body onload="init()">
+<div class="loginform">
+	<label>Username</label><br>
+   	<input id="name" type="text"><br><br>
+   	<label>Password</label><br>
+   	<input id="password" type="password"><div id="error"></div><br><br>
     <button id="login" onclick="logIn();">Log In</button>
 </div>
 </body>

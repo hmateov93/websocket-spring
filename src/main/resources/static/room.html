@@ -6,18 +6,19 @@
     <script src="stomp.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/room.js"></script>
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+    <link href="css/room.css" rel="stylesheet" type="text/css">    
 </head>
-<body onload="init()">
+<body onload="init()" onbeforeunload="disconnect()">
 <div>
     <div id="conversationDiv">
-        <p id="response"></p>
     </div>
     <div id="messageUIDiv">
-    	<input id="message" type="text">
-    	<button id="sendMessage" onclick="sendMessage(0);">Send</button><br>    
+    	<textarea id="message"></textarea>
+    	<button id="sendMessage" onclick="sendMessage(0);">Send</button>
+    	<button id="disconnect" onclick="disconnect();">Exit</button>    
     </div>    
-    <div>
-        <button id="disconnect" onclick="disconnect();">Disconnect</button>
+    <div id="userListDiv">
     </div>
 
 </div>

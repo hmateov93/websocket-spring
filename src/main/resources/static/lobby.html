@@ -2,14 +2,22 @@
 <html>
 <head>
     <title>WebSocket Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="sockjs-0.3.4.js"></script>
     <script src="stomp.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/lobby.js"></script>
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+    <link href="css/lobby.css" rel="stylesheet" type="text/css">
 </head>
 <body onload="init()">
-<div id="rooms">
-
-</div>
+<nav id="menu">
+	<button id="manage_rooms_button" onclick="goToManageRooms();">Manage Rooms</button>
+	<button id="manage_users_button" onclick="goToManageUsers();">Manage Users</button>	
+	<button id="create_room_button" onclick="goToCreateRoom();">Create Room</button>
+	<button id="create_user_button" onclick="goToCreateUser();">Create User</button>
+</nav>
+<div id="rooms"></div>
+<div id="users"></div>
 </body>
 </html>

@@ -3,10 +3,10 @@ var chatid;
 
 function init(){ // We read the user from cookies
 	getUser();
+	checkLoggedIn();
 	chatid=getQueryVariable("id");
 	disconnect();
 	connect();
-	
 }
 
 function connect() {
@@ -17,7 +17,9 @@ function connect() {
         stompClient.subscribe('/topic/messages/'+chatid, function(message){
         	var processedmessage = JSON.parse(message.body);
             showMessage(processedmessage.content);
-        });     
+            if(processedmessage.userlist!=null)updateUserList(processedmessage.userlist);
+            //if(processedmessage.roomActive==false) disconnect();
+        });         
         sendMessage(1);
     });
 }
@@ -38,9 +40,25 @@ function sendMessage(type) {
 }
 
 function showMessage(message) {
-    var response = document.getElementById('response');
+    var response = document.getElementById('conversationDiv');
     var p = document.createElement('p');
     p.style.wordWrap = 'break-word';
     p.appendChild(document.createTextNode(message));
     response.appendChild(p);
+}
+
+function updateUserList(message){
+	var div = document.getElementById('userListDiv');
+	div.innerHTML = "";
+	var users = JSON.parse(message);
+	for(var i=0;i<users.length;i++){
+		var p = document.createElement('p');
+		if(users[i].type=="ADMIN")p.className = "user_admin";
+		p.appendChild(document.createTextNode(users[i].name));
+		div.appendChild(p);
+	}
+}
+
+function checkLoggedIn(){
+	if(user.type=="")window.location.href = "/index.html";
 }
