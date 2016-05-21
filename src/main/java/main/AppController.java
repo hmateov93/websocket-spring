@@ -66,12 +66,22 @@ public class AppController {
         return roomArrayListToArray(rooms);
     }	 
     
+    @MessageMapping("/users")
+    @SendTo("/topic/users")
+    public User[] getUsers(User user) throws Exception {
+    	User[]users = null;
+    	if(user.getType().equals("ADMIN")){
+    		users = JSONParser.fetchRegisteredUsers();
+    	}
+        return users;
+    }	    
+    
     @MessageMapping("/createUser")
     @SendTo("/topic/users")
     public User[] createUser(User user) throws Exception {
     	ArrayList<User>users = null;
     		users = userArrayToArrayList(JSONParser.fetchRegisteredUsers());
-    		var found = false;
+    		boolean found = false;
     		for(int i=0;i<users.size();i++){
     			if(users.get(i).getName().equals(user.getName())){
     				found=true;
@@ -99,15 +109,37 @@ public class AppController {
         return userArrayListToArray(users);
     }    
     
-    @MessageMapping("/users")
+    @MessageMapping("/banUser")
     @SendTo("/topic/users")
-    public User[] getUsers(User user) throws Exception {
-    	User[]users = null;
-    	if(user.getType().equals("ADMIN")){
-    		users = JSONParser.fetchRegisteredUsers();
+    public User[] banUser(String name) throws Exception {
+    	User[] users = JSONParser.fetchRegisteredUsers();
+    		boolean found = false;
+    		for(int i=0;i<users.length;i++){
+    			if(users[i].getName().equals(name)){
+    				found = true;
+    				users[i].setStatus("BANNED");
+    			}
+    		if(found)JSONParser.writeRegisteredUsers(users);
+    	}
+        return users;
+    }
+    
+    @MessageMapping("/unbanUser")
+    @SendTo("/topic/users")
+    public User[] unbanUser(String name) throws Exception {
+    	User[] users = JSONParser.fetchRegisteredUsers();
+    		boolean found = false;
+    		for(int i=0;i<users.length;i++){
+    			if(users[i].getName().equals(name)){
+    				found = true;
+    				users[i].setStatus("OK");
+    			}
+    		if(found)JSONParser.writeRegisteredUsers(users);
     	}
         return users;
     }	    
+    
+    
     
     @MessageMapping("/chat/{chatId}")
     @SendTo("/topic/messages/{chatId}")

@@ -89,11 +89,24 @@ function loadUsers(message){
 	for(var i=0;i<message.length;i++){
 		localuser=message[i];
 	    var p = document.createElement('p');
+	    
     	var deletebutton = document.createElement('button');
 	    deletebutton.id = localuser.name;
     	deletebutton.className = "userdeletebutton";
     	deletebutton.addEventListener("click", deleteUser);
     	deletebutton.appendChild(document.createTextNode("Delete"));
+    	
+    	var banbutton = document.createElement('button');
+    	banbutton.id = localuser.name;
+    	banbutton.className = "banbutton";
+    	if(localuser.status == "OK"){
+        	banbutton.addEventListener("click", banUser);
+        	banbutton.appendChild(document.createTextNode("Ban"));    		
+    	}
+    	else if(localuser.status == "BANNED"){
+        	banbutton.addEventListener("click", unbanUser);
+        	banbutton.appendChild(document.createTextNode("Unban"));     		
+    	}
     	
 	    p.appendChild(document.createTextNode("Name: "+localuser.name));
 	    p.appendChild(document.createElement('br'));
@@ -102,7 +115,8 @@ function loadUsers(message){
 	    p.appendChild(document.createTextNode("Role: "+localuser.type));
 	    p.appendChild(document.createElement('br'));
 	    p.appendChild(document.createTextNode("Status: "+localuser.status));
-	    p.appendChild(document.createElement('br'));	    
+	    p.appendChild(document.createElement('br'));	
+	    p.appendChild(banbutton);
 	    p.appendChild(deletebutton);
 
 
@@ -155,6 +169,14 @@ function goToCreateRoom(){
 
 function deleteRoom(){
     stompClient.send("/app/deleteRoom", {}, ""+this.id);	
+}
+
+function banUser(){
+    stompClient.send("/app/banUser", {}, ""+this.id);	
+}
+
+function unbanUser(){
+    stompClient.send("/app/unbanUser", {}, ""+this.id);	
 }
 
 function deleteUser(){
