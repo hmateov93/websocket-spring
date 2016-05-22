@@ -2,6 +2,7 @@ var stompClient = null;
 var error = null;
 
 function init(){
+	resetCookies();
 	disconnect();
 	connect();
 }

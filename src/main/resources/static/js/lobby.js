@@ -195,7 +195,7 @@ function unbanUser(){
 
 function deleteUser(){
     stompClient.send("/app/deleteUser", {}, ""+this.id);
-    if(user.name == ""+this.id)window.location.href = "/index.html";
+    if(user.name == ""+this.id)window.location.href = "/logout.html?goodbye=log_in";
 }
 
 function statusCheck(){
@@ -203,5 +203,5 @@ function statusCheck(){
 }
 
 function goBack(){
-	window.location.href = "/index.html";
+	window.location.href = "/logout.html?goodbye=standard";
 }

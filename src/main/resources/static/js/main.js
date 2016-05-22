@@ -1,10 +1,10 @@
-var user = { 'type': 'UNASSIGNED', 'name': 'Guest', 'password' : '1234', 'status': 'OK'}; 
+var user = { 'type': 'UNASSIGNED', 'name': '', 'password' : '', 'status': 'OK'}; 
 //Mocked user
 
 
 function checkLoggedIn(){
-	if(user.type=="")window.location.href = "/index.html";
-	if(user.status=="BANNED")window.location.href = "/index.html";
+	if(user.type=="")window.location.href = "/logout.html?goodbye=no_login";
+	if(user.status=="BANNED")window.location.href = "/logout.html?goodbye=banned";
 }
 
 
@@ -22,6 +22,13 @@ function getUser(){ //Gets the user from cookies
 	user.name = getCookie("user.name");
 	user.password = getCookie("user.password");
 	user.status = getCookie("user.status");
+}
+
+function resetCookies(){
+	setCookie("user.type", 'UNASSIGNED', 1);
+	setCookie("user.name", '', 1);
+	setCookie("user.password", '', 1);
+	setCookie("user.status", 'OK', 1);	
 }
 
 function updateUser(user){
