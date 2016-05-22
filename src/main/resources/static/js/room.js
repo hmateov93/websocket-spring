@@ -41,7 +41,6 @@ function disconnect() {
 }
 
 function sendMessage(type) {
-	checkLoggedIn();
 	statusCheck();
     var message = document.getElementById('message').value;
     document.getElementById('message').value="";
@@ -70,6 +69,5 @@ function updateUserList(message){
 }
 
 function statusCheck(){
-	checkLoggedIn();
-	stompClient.send("/app/status_refresh", {}, user.name);	
+	stompClient.send("/app/status_refresh", {}, user.name);
 }

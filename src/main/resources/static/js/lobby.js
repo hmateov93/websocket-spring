@@ -1,11 +1,12 @@
-stompClient = null;
+var stompClient = null;
+var activeView = "rooms";
 
 function init(){ // We read the user from cookies and load the rooms
 	getUser();
 	checkLoggedIn();
 	disconnect();
 	connect();
-	if(user.type=="ADMIN")goToManageRooms();
+	if(user.type=="ADMIN" && activeView == "rooms")goToManageRooms();
 }
 
 function connect() {
@@ -15,7 +16,7 @@ function connect() {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/rooms', function(message){
         	var processedmessage = JSON.parse(message.body);
-        	loadRooms(processedmessage);
+        	if(activeView == "rooms")loadRooms(processedmessage);
         	statusCheck();
         });
         stompClient.subscribe('/topic/status', function(message){
@@ -25,7 +26,7 @@ function connect() {
         if(user.type=="ADMIN"){
             stompClient.subscribe('/topic/users', function(message){
             	var processedmessage = JSON.parse(message.body);
-            	loadUsers(processedmessage);
+            	if(activeView == "users")loadUsers(processedmessage);
             	statusCheck();
             });         	
         }
@@ -95,9 +96,10 @@ function loadRooms(message){
 
 function loadUsers(message){
 	document.getElementById('rooms').innerHTML = "";
+	
 	var userscontainer= document.getElementById('users');
 	userscontainer.innerHTML = "";
-	console.log(message);
+	
 	for(var i=0;i<message.length;i++){
 		localuser=message[i];
 	    var p = document.createElement('p');
@@ -138,7 +140,9 @@ function loadUsers(message){
 }
 
 function goToManageUsers(){
+	activeView = "users";
 	document.getElementById('rooms').innerHTML = "";
+	document.getElementById('usermenu').style.display = "none";
 	
 	document.getElementById('manage_rooms_button').style.display = 'inline';
 	document.getElementById('create_room_button').style.display = 'none';
@@ -151,7 +155,9 @@ function goToManageUsers(){
 }
 
 function goToManageRooms(){
+	activeView = "rooms";
 	document.getElementById('users').innerHTML = "";
+	document.getElementById('usermenu').style.display = "none";
 	
 	document.getElementById('manage_rooms_button').style.display = 'none';
 	document.getElementById('create_room_button').style.display = 'inline';
