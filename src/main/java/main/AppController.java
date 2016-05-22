@@ -40,6 +40,8 @@ public class AppController {
 			e.printStackTrace();
 		}
 	}
+	
+	//Room management controllers
 
     @MessageMapping("/lobby")
     @SendTo("/topic/rooms")
@@ -65,6 +67,8 @@ public class AppController {
     	users.remove(message);
         return roomArrayListToArray(rooms);
     }	 
+    
+    //User management controllers
     
     @MessageMapping("/users")
     @SendTo("/topic/users")
@@ -139,7 +143,20 @@ public class AppController {
         return users;
     }	    
     
+    @MessageMapping("/status_refresh")
+    @SendTo("/topic/status")
+    public User statusRefresh(String name) throws Exception {
+    	User[] users = JSONParser.fetchRegisteredUsers();
+    	User user = null;
+    	for(int i=0;i<users.length;i++){
+    		if(users[i].getName().equals(name)){
+    			user = users[i];
+    		}
+    	}
+        return user;
+    }	      
     
+    //Chat controllers
     
     @MessageMapping("/chat/{chatId}")
     @SendTo("/topic/messages/{chatId}")
@@ -155,7 +172,8 @@ public class AppController {
         	if(user!=null && users.get(chatId)!=null){
         		if(findUserFromName(chatId,user.getName())!=9999){
         			users.get(chatId).remove(findUserFromName(chatId,user.getName()));
-        		}	
+        		}
+        		user.setPassword("dsamidMDISADmd82M48DXNIDSMADIANSD8e42E48NmdMDSIUndmasd82E48ed8Damdsd8D2W3N8ndUDSN");
         		users.get(chatId).add(user);
         		User[] tempusers = users.get(chatId).toArray(new User[users.get(chatId).size()]);
         		String finallist = JSONParser.stringifyUserlist(tempusers);

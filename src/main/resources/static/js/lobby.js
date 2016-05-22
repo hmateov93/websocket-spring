@@ -16,15 +16,22 @@ function connect() {
         stompClient.subscribe('/topic/rooms', function(message){
         	var processedmessage = JSON.parse(message.body);
         	loadRooms(processedmessage);
+        	statusCheck();
         });
+        stompClient.subscribe('/topic/status', function(message){
+        	var processedmessage = JSON.parse(message.body);
+        	updateUser(processedmessage);
+        });        
         if(user.type=="ADMIN"){
             stompClient.subscribe('/topic/users', function(message){
             	var processedmessage = JSON.parse(message.body);
             	loadUsers(processedmessage);
+            	statusCheck();
             });         	
         }
          
         requestRooms();
+        statusCheck();
     }); 
 }
 
@@ -51,7 +58,12 @@ function loadRooms(message){
 	document.getElementById('users').innerHTML = "";
 	
 	if(user.type!="ADMIN"){
+		document.getElementById('usermenu').style.display = "block";
 		document.getElementById('menu').style.display = "none";
+	}
+	else{
+		document.getElementById('usermenu').style.display = "none";
+		document.getElementById('menu').style.display = "block";		
 	}
 
 	for(var i=0;i<message.length;i++){
@@ -155,10 +167,6 @@ function joinRoom(){
 	window.location.href = "/room.html?id="+this.id;
 }
 
-function checkLoggedIn(){
-	if(user.type=="")window.location.href = "/index.html";
-}
-
 function goToCreateUser(){
 	window.location.href = "/create_user.html";
 }
@@ -182,4 +190,12 @@ function unbanUser(){
 function deleteUser(){
     stompClient.send("/app/deleteUser", {}, ""+this.id);
     if(user.name == ""+this.id)window.location.href = "/index.html";
+}
+
+function statusCheck(){
+	stompClient.send("/app/status_refresh", {}, user.name);	
+}
+
+function goBack(){
+	window.location.href = "/index.html";
 }

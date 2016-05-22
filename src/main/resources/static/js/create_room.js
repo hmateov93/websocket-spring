@@ -22,10 +22,6 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function checkLoggedIn(){
-	if(user.type=="")window.location.href = "/index.html";
-}
-
 function createRoom(){
 	var name = document.getElementById('name').value;
 	var newroom= { 'id': 500, 'name': name};

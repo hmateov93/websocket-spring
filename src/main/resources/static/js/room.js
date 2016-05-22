@@ -1,7 +1,7 @@
 stompClient = null;
 var chatid;
 
-function init(){ // We read the user from cookies
+function init(){
 	getUser();
 	checkLoggedIn();
 	chatid=getQueryVariable("id");
@@ -18,9 +18,16 @@ function connect() {
         	var processedmessage = JSON.parse(message.body);
             showMessage(processedmessage.content);
             if(processedmessage.userlist!=null)updateUserList(processedmessage.userlist);
+            statusCheck();
             //if(processedmessage.roomActive==false) disconnect();
+        }); 
+        stompClient.subscribe('/topic/status', function(message){
+        	var processedmessage = JSON.parse(message.body);
+        	updateUser(processedmessage);
         });         
         sendMessage(1);
+        statusCheck();
+        
     });
 }
 
@@ -34,12 +41,15 @@ function disconnect() {
 }
 
 function sendMessage(type) {
+	checkLoggedIn();
+	statusCheck();
     var message = document.getElementById('message').value;
     document.getElementById('message').value="";
     stompClient.send("/app/chat/"+chatid, {}, JSON.stringify({ 'type': type, 'user': user.name, 'content': message  }));	
 }
 
 function showMessage(message) {
+	checkLoggedIn();
     var response = document.getElementById('conversationDiv');
     var p = document.createElement('p');
     p.style.wordWrap = 'break-word';
@@ -59,6 +69,7 @@ function updateUserList(message){
 	}
 }
 
-function checkLoggedIn(){
-	if(user.type=="")window.location.href = "/index.html";
+function statusCheck(){
+	checkLoggedIn();
+	stompClient.send("/app/status_refresh", {}, user.name);	
 }

@@ -12,18 +12,35 @@ function getQueryVariable(variable) { //Method to get variables from URL
     return null;
 }
 
+
+function checkLoggedIn(){
+	if(user.type=="")window.location.href = "/index.html";
+	if(user.status=="BANNED")window.location.href = "/index.html";
+}
+
+
 //Method to set/get users easily
 
 function setUser(user){ //Sets the cookies for user
 	setCookie("user.type", user.type, 1);
 	setCookie("user.name", user.name, 1);
 	setCookie("user.password", user.password, 1);
+	setCookie("user.status", user.status, 1);
 }
 
 function getUser(){ //Gets the user from cookies
 	user.type = getCookie("user.type");
 	user.name = getCookie("user.name");
 	user.password = getCookie("user.password");
+	user.status = getCookie("user.status");
+}
+
+function updateUser(user){
+	setCookie("user.type", user.type, 1);
+	setCookie("user.status", user.status, 1);
+	this.user.type = user.type;
+	this.user.status = user.status;
+	checkLoggedIn();
 }
 
 //We set/get cookies with these methods (Not my code):

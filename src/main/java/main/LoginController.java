@@ -22,7 +22,9 @@ public class LoginController {
     			userexists=true;
     			if(users[i].getPassword().equals(user.getPassword())){
     				newuser=users[i];
-    				newuser.setStatus("OK");
+    				if(newuser.getStatus().equals("BANNED")){
+    					return new EncapsulatedUser("BANNED", newuser);
+    				}
     				return new EncapsulatedUser("OK", newuser);
     			}
     		}
@@ -30,8 +32,14 @@ public class LoginController {
         if(newuser==null && userexists==false){
         	newuser=user;
         	newuser.setType("USER");
-        	JSONParser.writeRegisteredUsers(createNewArrayFromOld(users,newuser));
-        	return new EncapsulatedUser("OK", newuser);
+        	if(!newuser.getName().equals("")){
+            	JSONParser.writeRegisteredUsers(createNewArrayFromOld(users,newuser));
+            	return new EncapsulatedUser("OK", newuser);        		
+        	}
+        	else{
+        		return new EncapsulatedUser("EMPTY_USERNAME", newuser);
+        	}
+        	
         }
         return new EncapsulatedUser("INVALID_PASSWORD", newuser);
     }
