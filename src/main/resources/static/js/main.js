@@ -3,7 +3,8 @@ var user = { 'type': 'UNASSIGNED', 'name': '', 'password' : '', 'status': 'OK'};
 
 
 function checkLoggedIn(){
-	if(user.type=="")window.location.href = "/logout.html?goodbye=no_login";
+	console.log("CHECKING LOGGED IN "+user.type);
+	if(user.type=="UNASSIGNED")window.location.href = "/logout.html?goodbye=no_login";
 	if(user.status=="BANNED")window.location.href = "/logout.html?goodbye=banned";
 }
 
