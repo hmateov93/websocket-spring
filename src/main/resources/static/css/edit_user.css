@@ -1,6 +1,6 @@
 @CHARSET "ISO-8859-1";
 
-.loginform{
+#edit_form{
 	
 	text-align: center;
 	position: absolute;
@@ -14,7 +14,18 @@
 	
 }
 
-#login{
+#edit_form input{
+	color: white;
+	background-color: rgba(200,200,200,0.1);
+}
+
+#edit_form button{
+	margin-top: 2vh;
+
+	
+}
+
+button{
 	
 	color: white;
 	background-color: rgba(150,150,150,0);
@@ -23,15 +34,10 @@
  	border: solid 1px #dcdcdc;	
 }	
 
-#login input{
-	color: white;
-	background-color: rgba(200,200,200,0.1);
-}
-
-#login:hover{
+button:hover{
 	background-color: rgba(200,200,200,0.4);
 }
 
-#login:active{
+button:active{
 	background-color: rgba(200,200,200,0.6);
 }

@@ -9,7 +9,7 @@ function init(){ // We read the user from cookies
 }
 
 function connect() {
-    var socket = new SockJS('/createUser');
+    var socket = new SockJS('/editUser');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function(frame) {
         console.log('Connected: ' + frame);      
@@ -27,14 +27,32 @@ function checkLoggedIn(){
 	if(user.type=="")window.location.href = "/index.html";
 }
 
-function createUser(){
-	var name = document.getElementById('name').value;
+function editUser(){
+	var name = getQueryVariable("user");
 	var password = document.getElementById('password').value;
 	var type = document.getElementById('type').value;
-	var newuser= { 'name': name, 'password': password, 'type': type, 'status': 'OK'};
-    stompClient.send("/app/createUser", {}, JSON.stringify(newuser));	
+	var newuser= { 'name': name, 'password': password, 'type': type, 'status': 'UNKNOWN'};
+    stompClient.send("/app/editUser", {}, JSON.stringify(newuser));	
     disconnect();
     window.location.href = "/lobby.html";
+}
+
+function lockPassword(){
+	 if(document.getElementById("password").disabled == true){
+		 document.getElementById("password").disabled = false;
+	 }
+	 else{
+		 document.getElementById("password").disabled = true; 
+	 }
+}
+
+function lockType(){
+	 if(document.getElementById("type").disabled == true){
+		 document.getElementById("type").disabled = false;
+	 }
+	 else{
+		 document.getElementById("type").disabled = true; 
+	 }
 }
 
 

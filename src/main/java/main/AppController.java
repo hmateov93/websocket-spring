@@ -141,7 +141,23 @@ public class AppController {
     		if(found)JSONParser.writeRegisteredUsers(users);
     	}
         return users;
-    }	    
+    }	
+    
+    @MessageMapping("/editUser")
+    @SendTo("/topic/users")
+    public User[] editUser(User user) throws Exception {
+    	User[] users = JSONParser.fetchRegisteredUsers();
+    		boolean found = false;
+    		for(int i=0;i<users.length;i++){
+    			if(users[i].getName().equals(user.getName())){
+    				found = true;
+    				users[i].setPassword(user.getPassword());
+    				users[i].setType(user.getType());
+    			}
+    		if(found)JSONParser.writeRegisteredUsers(users);
+    	}
+        return users;
+    }    
     
     @MessageMapping("/status_refresh")
     @SendTo("/topic/status")

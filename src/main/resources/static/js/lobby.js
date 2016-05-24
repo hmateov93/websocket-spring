@@ -110,6 +110,12 @@ function loadUsers(message){
     	deletebutton.addEventListener("click", deleteUser);
     	deletebutton.appendChild(document.createTextNode("Delete"));
     	
+    	var editbutton = document.createElement('button');
+    	editbutton.id = localuser.name;
+    	editbutton.className = "usereditbutton";
+    	editbutton.addEventListener("click", editUser);
+    	editbutton.appendChild(document.createTextNode("Edit"));    	
+    	
     	var banbutton = document.createElement('button');
     	banbutton.id = localuser.name;
     	banbutton.className = "banbutton";
@@ -130,7 +136,9 @@ function loadUsers(message){
 	    p.appendChild(document.createElement('br'));
 	    p.appendChild(document.createTextNode("Status: "+localuser.status));
 	    p.appendChild(document.createElement('br'));	
+	    
 	    p.appendChild(banbutton);
+	    p.appendChild(editbutton);
 	    p.appendChild(deletebutton);
 
 
@@ -200,6 +208,10 @@ function deleteUser(){
 
 function statusCheck(){
 	stompClient.send("/app/status_refresh", {}, user.name);	
+}
+
+function editUser(){
+	window.location.href = "/edit_user.html?user="+this.id;
 }
 
 function goBack(){

@@ -5,23 +5,23 @@
     <script src="sockjs-0.3.4.js"></script>
     <script src="stomp.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
-    <script type="text/javascript" src="js/create_user.js"></script>
+    <script type="text/javascript" src="js/edit_user.js"></script>
     <link href="css/main.css" rel="stylesheet" type="text/css">
-    <link href="css/create_user.css" rel="stylesheet" type="text/css">     
+    <link href="css/edit_user.css" rel="stylesheet" type="text/css">     
 </head>
 <body onload="init()">
-<div id="create_form">
-	<label>Name</label>
-	<input type="text" id="name"><br>
+<div id="edit_form">
 	<label>Password</label>
-	<input type="text" id="password"><br>	
+	<input type="text" id="password">
+	<input type="checkbox" id="passwordlock" onclick="lockPassword();"><br>	
 	<label>Role</label>
 	<select id="type">
   		<option value="ADMIN">Admin</option>
   		<option value="USER">User</option>
   	</select>
+  	<input type="checkbox" id="typelock" onclick="lockType();">
 	<br>
-	<button onclick="createUser();">Create</button>
+	<button onclick="editUser();">Confirm</button>
 	<button onclick="goBack();">Back</button>
 </div>
 </body>
