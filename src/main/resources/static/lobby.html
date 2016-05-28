@@ -11,17 +11,18 @@
     <link href="css/lobby.css" rel="stylesheet" type="text/css">
 </head>
 <body onload="init()">
-<nav id="usermenu">
-	<button onclick="goBack();">Log Out</button>
-</nav>
-<nav id="menu">
-	<button onclick="goBack();">Log Out</button>
-	<button id="manage_rooms_button" onclick="goToManageRooms();">Manage Rooms</button>
-	<button id="manage_users_button" onclick="goToManageUsers();">Manage Users</button>	
-	<button id="create_room_button" onclick="goToCreateRoom();">Create Room</button>
-	<button id="create_user_button" onclick="goToCreateUser();">Create User</button>
-</nav>
-<div id="rooms"></div>
-<div id="users"></div>
+	<div class="title">Lobby</div>
+	<nav id="usermenu">
+		<button onclick="goBack();">Log Out</button>
+	</nav>
+	<nav id="menu">
+		<button onclick="goBack();">Log Out</button>
+		<button id="manage_rooms_button" onclick="goToManageRooms();">Manage Rooms</button>
+		<button id="manage_users_button" onclick="goToManageUsers();">Manage Users</button>	
+		<button id="create_room_button" onclick="goToCreateRoom();">Create Room</button>
+		<button id="create_user_button" onclick="goToCreateUser();">Create User</button>
+	</nav>
+	<div id="rooms"></div>
+	<div id="users"></div>
 </body>
 </html>

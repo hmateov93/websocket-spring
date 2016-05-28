@@ -21,7 +21,7 @@ import mocks.JSONParser;
 @Controller
 public class AppController {
 
-	//TODO: Change primitive array to arraylist
+
 	public ArrayList<Room> rooms;
 	public HashMap<String, ArrayList<User>>users;
 	
@@ -41,7 +41,7 @@ public class AppController {
 		}
 	}
 	
-	//Room management controllers
+	//Room management endpoints
 
     @MessageMapping("/lobby")
     @SendTo("/topic/rooms")
@@ -68,7 +68,7 @@ public class AppController {
         return roomArrayListToArray(rooms);
     }	 
     
-    //User management controllers
+    //User management endpoints
     
     @MessageMapping("/users")
     @SendTo("/topic/users")
@@ -151,8 +151,8 @@ public class AppController {
     		for(int i=0;i<users.length;i++){
     			if(users[i].getName().equals(user.getName())){
     				found = true;
-    				users[i].setPassword(user.getPassword());
-    				users[i].setType(user.getType());
+    				if(user.getPassword()!=null)users[i].setPassword(user.getPassword());
+    				if(user.getType()!=null)users[i].setType(user.getType());
     			}
     		if(found)JSONParser.writeRegisteredUsers(users);
     	}
@@ -172,7 +172,7 @@ public class AppController {
         return user;
     }	      
     
-    //Chat controllers
+    //Chat endpoints
     
     @MessageMapping("/chat/{chatId}")
     @SendTo("/topic/messages/{chatId}")

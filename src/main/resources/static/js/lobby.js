@@ -137,9 +137,12 @@ function loadUsers(message){
 	    p.appendChild(document.createTextNode("Status: "+localuser.status));
 	    p.appendChild(document.createElement('br'));	
 	    
-	    p.appendChild(banbutton);
+	    
 	    p.appendChild(editbutton);
-	    p.appendChild(deletebutton);
+	    if(user.name != localuser.name){
+	    	p.appendChild(banbutton);
+	    	p.appendChild(deletebutton);
+	    }
 
 
 

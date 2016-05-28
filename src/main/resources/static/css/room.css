@@ -1,5 +1,9 @@
 @CHARSET "ISO-8859-1";
 
+.title{
+	top: 4vh;
+	left: 82vw;
+}
 
 #conversationDiv{
 	overflow-y: auto;
@@ -65,8 +69,8 @@
 	border-radius: 20px;	
 	font-size: 16px;	
 	width: 24vw;
-	height: 92vh;	
-	top: 4vh;	
+	height: 84vh;	
+	top: 12vh;	
 	left: 74vw;
 	overflow-y: auto;
 	overflow-x: hidden;

@@ -10,19 +10,20 @@
     <link href="css/create_user.css" rel="stylesheet" type="text/css">     
 </head>
 <body onload="init()">
-<div id="create_form">
-	<label>Name</label>
-	<input type="text" id="name"><br>
-	<label>Password</label>
-	<input type="text" id="password"><br>	
-	<label>Role</label>
-	<select id="type">
-  		<option value="ADMIN">Admin</option>
-  		<option value="USER">User</option>
-  	</select>
-	<br>
-	<button onclick="createUser();">Create</button>
-	<button onclick="goBack();">Back</button>
-</div>
+	<div class="title">Create User</div>
+	<div id="create_form">
+		<label>Name</label>
+		<input type="text" id="name"><br>
+		<label>Password</label>
+		<input type="text" id="password"><br>	
+		<label>Role</label>
+		<select id="type">
+	  		<option value="ADMIN">Admin</option>
+	  		<option value="USER">User</option>
+	  	</select>
+		<br>
+		<button onclick="createUser();">Create</button>
+		<button onclick="goBack();">Back</button>
+	</div>
 </body>
 </html>

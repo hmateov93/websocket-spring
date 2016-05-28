@@ -11,8 +11,7 @@ function init(){ // We read the user from cookies
 function connect() {
     var socket = new SockJS('/createRoom');
     stompClient = Stomp.over(socket);
-    stompClient.connect({}, function(frame) {
-        console.log('Connected: ' + frame);      
+    stompClient.connect({}, function(frame) {  
     }); 
 }
 
@@ -20,7 +19,6 @@ function disconnect() {
     if (stompClient != null) {
         stompClient.disconnect();
     }
-    console.log("Disconnected");
 }
 
 function createRoom(){

@@ -10,19 +10,20 @@
     <link href="css/edit_user.css" rel="stylesheet" type="text/css">     
 </head>
 <body onload="init()">
-<div id="edit_form">
-	<label>Password</label>
-	<input type="text" id="password">
-	<input type="checkbox" id="passwordlock" onclick="lockPassword();"><br>	
-	<label>Role</label>
-	<select id="type">
-  		<option value="ADMIN">Admin</option>
-  		<option value="USER">User</option>
-  	</select>
-  	<input type="checkbox" id="typelock" onclick="lockType();">
-	<br>
-	<button onclick="editUser();">Confirm</button>
-	<button onclick="goBack();">Back</button>
-</div>
+	<div class="title">Edit User</div>
+	<div id="edit_form">
+		<label>Password</label>
+		<input type="text" id="password">
+		<input type="checkbox" id="passwordlock" onclick="lockPassword();"><br>	
+		<label>Role</label>
+		<select id="type">
+	  		<option value="ADMIN">Admin</option>
+	  		<option value="USER">User</option>
+	  	</select>
+	  	<input type="checkbox" id="typelock" onclick="lockType();">
+		<br>
+		<button onclick="editUser();">Confirm</button>
+		<button onclick="goBack();">Back</button>
+	</div>
 </body>
 </html>

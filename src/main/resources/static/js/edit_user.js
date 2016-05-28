@@ -12,7 +12,7 @@ function connect() {
     var socket = new SockJS('/editUser');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function(frame) {
-        console.log('Connected: ' + frame);      
+        if(user.type=="ADMIN")console.log('Connected: ' + frame);      
     }); 
 }
 
@@ -20,7 +20,7 @@ function disconnect() {
     if (stompClient != null) {
         stompClient.disconnect();
     }
-    console.log("Disconnected");
+    if(user.type=="ADMIN")console.log("Disconnected");
 }
 
 function checkLoggedIn(){
@@ -29,8 +29,20 @@ function checkLoggedIn(){
 
 function editUser(){
 	var name = getQueryVariable("user");
-	var password = document.getElementById('password').value;
-	var type = document.getElementById('type').value;
+	var password;
+	var type;
+	if(document.getElementById("password").disabled == false){
+		password = document.getElementById('password').value;
+	}
+	else{
+		password = null;
+	}
+	if(document.getElementById("type").disabled == false){
+		type = document.getElementById('type').value;
+	}
+	else{
+		type = null;
+	}
 	var newuser= { 'name': name, 'password': password, 'type': type, 'status': 'UNKNOWN'};
     stompClient.send("/app/editUser", {}, JSON.stringify(newuser));	
     disconnect();
