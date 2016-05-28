@@ -1,7 +1,7 @@
 @CHARSET "ISO-8859-1";
 
 body{
-	background-image: url("images/Background2.jpg");
+	background-image: url("images/Background4.jpg");
 	color: white;
 }
 
@@ -10,7 +10,7 @@ body{
 	font-size: 24px;
 	left:44vw;
 	top: 10vh;
-	background-color: rgba(150,150,150,0.8);
+	background-color: rgba(5,66,135,0.8);
 	border-radius: 10px;
 	padding-left: 2vw;
 	padding-right: 2vw;	

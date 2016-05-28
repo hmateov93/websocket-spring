@@ -1,1 +1,1 @@
-[{"type":"ADMIN","name":"admin","password":"1234","status":"OK"},{"type":"USER","name":"BannedUser","password":"1234","status":"BANNED"},{"type":"USER","name":"TestUser","password":"1234","status":"OK"}]
+[{"type":"ADMIN","name":"admin","password":"1234","status":"OK"},{"type":"USER","name":"BannedUser","password":"1234","status":"BANNED"},{"type":"USER","name":"TestUser","password":"1234","status":"OK"},{"type":"USER","name":"hector","password":"placos","status":"OK"},{"type":"USER","name":"User","password":"1234","status":"OK"}]

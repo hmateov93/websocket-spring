@@ -11,7 +11,7 @@ nav{
 	padding-right: 6vw;
 	padding-top: 2vh;
 	padding-bottom: 2vh;
-	background-color: rgba(150,150,150,0.8);
+	background-color: rgba(5,66,135,0.8);
 	border-radius: 20px;
 	
 
@@ -36,7 +36,7 @@ nav button{
 	top: 38vh;	
 	padding-left: 2vw;
 	padding-right: 2.7vw;
-	background-color: rgba(150,150,150,0.8);
+	background-color: rgba(5,66,135,0.8);
 	border-radius: 10px;	
 	font-size: 18px;
 
@@ -60,7 +60,7 @@ nav button{
 	top: 38vh;	
 	padding-left: 2vw;
 	padding-right: 2.7vw;
-	background-color: rgba(150,150,150,0.8);
+	background-color: rgba(5,66,135,0.8);
 	border-radius: 10px;	
 	font-size: 18px;
 
@@ -80,7 +80,7 @@ nav button{
 button{
 	
 	color: white;
-	background-color: rgba(150,150,150,0);
+	background-color: rgba(5,66,135,0);
     padding: 0.5vw;
   	border-radius: 20px;
  	border: solid 1px #dcdcdc;	
