@@ -2,6 +2,7 @@ var stompClient = null;
 var error = null;
 
 function init(){
+	resetCookies();
 	disconnect();
 	connect();
 }
@@ -32,9 +33,17 @@ function loadUser(message){
 		setUser(user);
 		window.location.href = "lobby.html";			
 	}
-	if(message.code === "INVALID_PASSWORD"){
+	else if(message.code === "INVALID_PASSWORD"){
 		document.getElementById('error').innerHTML = "";
 		document.getElementById('error').appendChild(document.createTextNode("Invalid Password"));
+	}
+	else if(message.code === "BANNED"){
+		document.getElementById('error').innerHTML = "";
+		document.getElementById('error').appendChild(document.createTextNode("This user has been banned"));		
+	}
+	else if(message.code === "EMPTY_USERNAME"){
+		document.getElementById('error').innerHTML = "";
+		document.getElementById('error').appendChild(document.createTextNode("The username can't be empty"));		
 	}
 }
 

@@ -3,15 +3,15 @@ var stompClient = null;
 function init(){ // We read the user from cookies
 	getUser();
 	checkLoggedIn();
+	checkAdmin();
 	disconnect();
 	connect();
 }
 
 function connect() {
-    var socket = new SockJS('/createUser');
+    var socket = new SockJS('/createRoom');
     stompClient = Stomp.over(socket);
-    stompClient.connect({}, function(frame) {
-        console.log('Connected: ' + frame);      
+    stompClient.connect({}, function(frame) {  
     }); 
 }
 
@@ -19,11 +19,6 @@ function disconnect() {
     if (stompClient != null) {
         stompClient.disconnect();
     }
-    console.log("Disconnected");
-}
-
-function checkLoggedIn(){
-	if(user.type=="")window.location.href = "/index.html";
 }
 
 function createRoom(){

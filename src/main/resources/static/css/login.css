@@ -23,6 +23,11 @@
  	border: solid 1px #dcdcdc;	
 }	
 
+#login input{
+	color: white;
+	background-color: rgba(200,200,200,0.1);
+}
+
 #login:hover{
 	background-color: rgba(200,200,200,0.4);
 }

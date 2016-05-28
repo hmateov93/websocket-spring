@@ -3,12 +3,13 @@ var stompClient = null;
 function init(){ // We read the user from cookies
 	getUser();
 	checkLoggedIn();
+	checkAdmin();
 	disconnect();
 	connect();
 }
 
 function connect() {
-    var socket = new SockJS('/createRoom');
+    var socket = new SockJS('/createUser');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function(frame) {
         console.log('Connected: ' + frame);      

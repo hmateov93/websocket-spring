@@ -21,7 +21,7 @@ import mocks.JSONParser;
 @Controller
 public class AppController {
 
-	//TODO: Change primitive array to arraylist
+
 	public ArrayList<Room> rooms;
 	public HashMap<String, ArrayList<User>>users;
 	
@@ -40,6 +40,8 @@ public class AppController {
 			e.printStackTrace();
 		}
 	}
+	
+	//Room management endpoints
 
     @MessageMapping("/lobby")
     @SendTo("/topic/rooms")
@@ -66,12 +68,24 @@ public class AppController {
         return roomArrayListToArray(rooms);
     }	 
     
+    //User management endpoints
+    
+    @MessageMapping("/users")
+    @SendTo("/topic/users")
+    public User[] getUsers(User user) throws Exception {
+    	User[]users = null;
+    	if(user.getType().equals("ADMIN")){
+    		users = JSONParser.fetchRegisteredUsers();
+    	}
+        return users;
+    }	    
+    
     @MessageMapping("/createUser")
     @SendTo("/topic/users")
     public User[] createUser(User user) throws Exception {
     	ArrayList<User>users = null;
     		users = userArrayToArrayList(JSONParser.fetchRegisteredUsers());
-    		var found = false;
+    		boolean found = false;
     		for(int i=0;i<users.size();i++){
     			if(users.get(i).getName().equals(user.getName())){
     				found=true;
@@ -99,15 +113,66 @@ public class AppController {
         return userArrayListToArray(users);
     }    
     
-    @MessageMapping("/users")
+    @MessageMapping("/banUser")
     @SendTo("/topic/users")
-    public User[] getUsers(User user) throws Exception {
-    	User[]users = null;
-    	if(user.getType().equals("ADMIN")){
-    		users = JSONParser.fetchRegisteredUsers();
+    public User[] banUser(String name) throws Exception {
+    	User[] users = JSONParser.fetchRegisteredUsers();
+    		boolean found = false;
+    		for(int i=0;i<users.length;i++){
+    			if(users[i].getName().equals(name)){
+    				found = true;
+    				users[i].setStatus("BANNED");
+    			}
+    		if(found)JSONParser.writeRegisteredUsers(users);
     	}
         return users;
-    }	    
+    }
+    
+    @MessageMapping("/unbanUser")
+    @SendTo("/topic/users")
+    public User[] unbanUser(String name) throws Exception {
+    	User[] users = JSONParser.fetchRegisteredUsers();
+    		boolean found = false;
+    		for(int i=0;i<users.length;i++){
+    			if(users[i].getName().equals(name)){
+    				found = true;
+    				users[i].setStatus("OK");
+    			}
+    		if(found)JSONParser.writeRegisteredUsers(users);
+    	}
+        return users;
+    }	
+    
+    @MessageMapping("/editUser")
+    @SendTo("/topic/users")
+    public User[] editUser(User user) throws Exception {
+    	User[] users = JSONParser.fetchRegisteredUsers();
+    		boolean found = false;
+    		for(int i=0;i<users.length;i++){
+    			if(users[i].getName().equals(user.getName())){
+    				found = true;
+    				if(user.getPassword()!=null)users[i].setPassword(user.getPassword());
+    				if(user.getType()!=null)users[i].setType(user.getType());
+    			}
+    		if(found)JSONParser.writeRegisteredUsers(users);
+    	}
+        return users;
+    }    
+    
+    @MessageMapping("/status_refresh")
+    @SendTo("/topic/status")
+    public User statusRefresh(String name) throws Exception {
+    	User[] users = JSONParser.fetchRegisteredUsers();
+    	User user = null;
+    	for(int i=0;i<users.length;i++){
+    		if(users[i].getName().equals(name)){
+    			user = users[i];
+    		}
+    	}
+        return user;
+    }	      
+    
+    //Chat endpoints
     
     @MessageMapping("/chat/{chatId}")
     @SendTo("/topic/messages/{chatId}")
@@ -123,7 +188,8 @@ public class AppController {
         	if(user!=null && users.get(chatId)!=null){
         		if(findUserFromName(chatId,user.getName())!=9999){
         			users.get(chatId).remove(findUserFromName(chatId,user.getName()));
-        		}	
+        		}
+        		user.setPassword("dsamidMDISADmd82M48DXNIDSMADIANSD8e42E48NmdMDSIUndmasd82E48ed8Damdsd8D2W3N8ndUDSN");
         		users.get(chatId).add(user);
         		User[] tempusers = users.get(chatId).toArray(new User[users.get(chatId).size()]);
         		String finallist = JSONParser.stringifyUserlist(tempusers);
