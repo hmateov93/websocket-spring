@@ -8,14 +8,13 @@ body{
 .title{
 	position:absolute;
 	font-size: 24px;
-	left:44vw;
+	left:40vw;
 	top: 10vh;
 	background-color: rgba(5,66,135,0.8);
 	border-radius: 10px;
-	padding-left: 2vw;
-	padding-right: 2vw;	
 	padding-top: 0.5vh;
-	padding-bottom: 0.5vh;				
+	padding-bottom: 0.5vh;	
+	text-align: center;	
 }
 
 #error{
