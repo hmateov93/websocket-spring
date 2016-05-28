@@ -11,8 +11,8 @@ import mocks.JSONParser;
 @Controller
 public class LoginController {
 
-    @MessageMapping("/login")
-    @SendTo("/topic/login")
+    @MessageMapping("/login/{clientId}")
+    @SendTo("/topic/login/{clientId}")
     public EncapsulatedUser checkUser(User user) throws Exception {
     	boolean userexists=false;
     	User newuser=null;

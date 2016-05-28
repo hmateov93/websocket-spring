@@ -1,5 +1,6 @@
 var stompClient = null;
 var error = null;
+var clientId = myip + Math.floor((Math.random() * 99999999) + 1);
 
 function init(){
 	resetCookies();
@@ -8,11 +9,12 @@ function init(){
 }
 
 function connect() {
-    var socket = new SockJS('/login');
+	
+    var socket = new SockJS('/login/'+clientId);
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function(frame) {
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/login', function(message){
+        stompClient.subscribe('/topic/login/'+clientId, function(message){
         	var processedmessage = JSON.parse(message.body);
         	loadUser(processedmessage);
         });
@@ -48,7 +50,7 @@ function loadUser(message){
 }
 
 function checkUser() {
-    stompClient.send("/app/login", {}, JSON.stringify(user));
+    stompClient.send("/app/login/"+clientId, {}, JSON.stringify(user));
 }
 
 //We perform the initial user login
