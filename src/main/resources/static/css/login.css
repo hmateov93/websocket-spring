@@ -1,24 +1,34 @@
 @CHARSET "ISO-8859-1";
 
+.title{
+	width: 23vw;
+	text-align:center;		
+}
+
 .loginform{
 	
 	text-align: center;
 	position: absolute;
 	left: 40vw;
 	top: 30vh;	
-	padding: 2vw;
-	background-color: rgba(150,150,150,0.8);
+	width: 23vw;
+	padding-top: 2vh;
+	padding-bottom: 2vh;
+	background-color: rgba(5,66,135,0.8);
 	border-radius: 10px;	
 	font-size: 18px;
 
 	
 }
 
+.loginform input{
+	width: 18vw;
+}
+
 #login{
-	
+	padding: 1vw;
 	color: white;
-	background-color: rgba(150,150,150,0);
-    padding: 10px;
+	background-color: rgba(5,66,135,0);
   	border-radius: 20px;
  	border: solid 1px #dcdcdc;	
 }	

@@ -1,13 +1,19 @@
 @CHARSET "ISO-8859-1";
 
+.title{
+	left: 39vw;
+	width: 30vw;
+}
+
 #create_form{
-	
+	width: 30vw;
 	text-align: center;
 	position: absolute;
 	left: 39vw;
 	top: 30vh;	
-	padding: 2vw;
-	background-color: rgba(150,150,150,0.8);
+	padding-top: 2vh;
+	padding-bottom: 2vh;
+	background-color: rgba(5,66,135,0.8);
 	border-radius: 10px;	
 	font-size: 18px;
 
@@ -15,9 +21,9 @@
 }
 
 #create_form input{
-	color: white;
-	background-color: rgba(200,200,200,0.1);
+	width: 19vw;
 }
+
 
 #create_form button{
 	margin-top: 2vh;
@@ -28,7 +34,7 @@
 button{
 	
 	color: white;
-	background-color: rgba(150,150,150,0);
+	background-color: rgba(5,66,135,0);
     padding: 10px;
   	border-radius: 20px;
  	border: solid 1px #dcdcdc;	
